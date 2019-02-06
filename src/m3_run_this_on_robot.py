@@ -34,7 +34,7 @@ def run_test_calibrate():
 
 def run_test_move_arm():
     robot = rosebot.RoseBot()
-    robot.arm_and_claw.move_arm_to_position()
+    robot.arm_and_claw.move_arm_to_position(0)
 
 
 def run_test_lower_arm():
