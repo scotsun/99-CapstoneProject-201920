@@ -223,10 +223,12 @@ class ArmAndClaw(object):
 
 
     def move_arm_to_position(self, desired_arm_position):
-        self.calibrate_arm()
         while self.motor.get_position()<desired_arm_position:
             self.motor.turn_on(100)
-            break
+        while self.motor.get_position()>desired_arm_position:
+            self.motor.turn_on(-100)
+
+
 
 
 
