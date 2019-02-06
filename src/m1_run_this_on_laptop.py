@@ -3,7 +3,7 @@
   Displays the Graphical User Interface (GUI) and communicates with the robot.
 
   Authors:  Your professors (for the framework)
-    and PUT_YOUR_NAME_HERE.
+    and Scott Sun.
   Winter term, 2018-2019.
 """
 
@@ -11,7 +11,6 @@ import mqtt_remote_method_calls as com
 import tkinter
 from tkinter import ttk
 import shared_gui
-
 
 def main():
     """
@@ -22,7 +21,6 @@ def main():
     # -------------------------------------------------------------------------
     # Construct and connect the MQTT Client:
     # -------------------------------------------------------------------------
-
 
     # -------------------------------------------------------------------------
     # The root TK object for the GUI:
