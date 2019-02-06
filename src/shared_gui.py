@@ -19,6 +19,8 @@ from tkinter import ttk
 import time
 
 
+
+
 def get_teleoperation_frame(window, mqtt_sender):
     """
     Constructs and returns a frame on the given window, where the frame
