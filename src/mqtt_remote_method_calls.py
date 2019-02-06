@@ -119,7 +119,7 @@
 
     ...(some time later, perhaps when a button is clicked)...
     mqtt_client.send_message("arm_up")
-    mqtt_client.send_message("something_else")
+    mqtt_client.send_message("something_else")K
 
 """
 
