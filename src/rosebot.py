@@ -217,6 +217,7 @@ class ArmAndClaw(object):
         while True:
             if self.motor.get_position()<-14.2:
                 self.motor.turn_off()
+                break
         self.motor.reset_position()
 
 
