@@ -226,6 +226,8 @@ class ArmAndClaw(object):
         self.calibrate_arm()
         while self.motor.get_position()<desired_arm_position:
             self.motor.turn_on(100)
+            break
+
 
 
         """
