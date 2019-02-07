@@ -231,6 +231,7 @@ def handle_raise_arm(mqtt_sender):
 
 
 def handle_lower_arm(mqtt_sender):
+    mqtt_sender.send_message("lower_arm")
     """
     Tells the robot to lower its Arm until it is all the way down.
       :type  mqtt_sender:  com.MqttClient
@@ -238,6 +239,7 @@ def handle_lower_arm(mqtt_sender):
 
 
 def handle_calibrate_arm(mqtt_sender):
+    mqtt_sender.send_message("calibrate_arm")
     """
     Tells the robot to calibrate its Arm, that is, first to raise its Arm
     until its touch sensor is pressed, then to lower its Arm until it is
@@ -247,6 +249,9 @@ def handle_calibrate_arm(mqtt_sender):
 
 
 def handle_move_arm_to_position(arm_position_entry, mqtt_sender):
+    arm_position_entry=arm_position_entry.get()
+    mqtt_sender.send_message("move_arm_to_position",[arm_position_entry])
+
     """
     Tells the robot to move its Arm to the position in the given Entry box.
     The robot must have previously calibrated its Arm.
