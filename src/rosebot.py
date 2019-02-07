@@ -74,6 +74,8 @@ class DriveSystem(object):
 
     def go(self, left_wheel_speed, right_wheel_speed):
         """ Makes the left and right wheel motors spin at the given speeds. """
+        self.left_motor.turn_on(left_wheel_speed)
+        self.right_motor.turn_on(right_wheel_speed)
 
     def stop(self):
         self.left_motor.turn_off()
@@ -85,6 +87,13 @@ class DriveSystem(object):
         Makes the robot go straight (forward if speed > 0, else backward)
         at the given speed for the given number of seconds.
         """
+        start = time.time()
+        self.go(speed, speed)
+
+        while True:
+            if time.time() - start >= seconds:
+                self.stop()
+                break
 
     def go_straight_for_inches_using_time(self, inches, speed):
         """
@@ -92,6 +101,7 @@ class DriveSystem(object):
         for the given number of inches, using the approximate
         conversion factor of 10.0 inches per second at 100 (full) speed.
         """
+        
 
     def go_straight_for_inches_using_encoder(self, inches, speed):
         """
