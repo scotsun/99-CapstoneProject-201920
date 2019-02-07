@@ -18,3 +18,9 @@ class DelegateThatReceives(object):
 
     def raise_arm(self):
         self.robot.arm_and_claw.raise_arm()
+
+    def handle_quit(self):
+        print('quit')
+
+    def handle_exit(self):
+        print('exit')
