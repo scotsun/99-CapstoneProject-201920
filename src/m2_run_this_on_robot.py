@@ -19,11 +19,9 @@ def main():
 
 def real_thing():
     robot=rosebot.RoseBot()
-    import tkinter
-    from tkinter import ttk
     import mqtt_remote_method_calls as com
-    import shared_gui_delegate_on_robot as sharegui
-    my_delegate=sharegui.DelegateThatReceives(robot)
+    import shared_gui_delegate_on_robot
+    my_delegate=shared_gui_delegate_on_robot.DelegateThatReceives(robot)
     mqtt_receiver=com.MqttClient(my_delegate)
     mqtt_receiver.connect_to_pc()
     time.sleep(1)

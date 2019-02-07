@@ -211,6 +211,8 @@ def handle_stop(mqtt_sender):
 # Handlers for Buttons in the ArmAndClaw frame.
 ###############################################################################
 def handle_raise_arm(mqtt_sender):
+    mqtt_sender.send_message("raise_arm")
+
     """
     Tells the robot to raise its Arm until its touch sensor is pressed.
       :type  mqtt_sender:  com.MqttClient

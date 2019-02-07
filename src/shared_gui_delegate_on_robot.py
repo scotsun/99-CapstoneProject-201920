@@ -8,10 +8,13 @@
 """
 
 
-class DelegateThatRecieves(object):
+class DelegateThatReceives(object):
     def __init__(self, robot):
         """" ;type robot: rosebot.Rosebot """
         self.robot = robot
 
     def forward(self, left_wheel_speed, right_wheel_speed):
         self.robot.drive_system.go(int(left_wheel_speed), int(right_wheel_speed))
+
+    def raise_arm(self):
+        self.robot.arm_and_claw.raise_arm()
