@@ -6,15 +6,29 @@
     and Emily Wilcox, Scott Sun, Daniel Pollack.
   Winter term, 2018-2019.
 """
-
+import rosebot
 
 class DelegateThatReceives(object):
     def __init__(self, robot):
-        """" ;type robot: rosebot.Rosebot """
+        """
+        :type robot: rosebot.Rosebot
+        """
         self.robot = robot
 
     def forward(self, left_wheel_speed, right_wheel_speed):
         self.robot.drive_system.go(int(left_wheel_speed), int(right_wheel_speed))
+
+    def backward(self, left_wheel_speed, right_wheel_speed):
+        self.robot.drive_system.go(-int(left_wheel_speed), -int(right_wheel_speed))
+
+    def left(self, left_wheel_speed, right_wheel_speed):
+        self.robot.drive_system.go(-int(left_wheel_speed), int(right_wheel_speed))
+
+    def right(self, left_wheel_speed, right_wheel_speed):
+        self.robot.drive_system.go(int(left_wheel_speed), -int(right_wheel_speed))
+
+    def stop(self):
+        self.robot.drive_system.stop()
 
     def raise_arm(self):
         self.robot.arm_and_claw.raise_arm()

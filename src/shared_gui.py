@@ -196,7 +196,7 @@ def handle_left(left_entry_box, right_entry_box, mqtt_sender):
     left_speed = left_entry_box.get()
     right_speed = right_entry_box.get()
     print('left')
-    mqtt_sender.send_message("left", [-left_speed, right_speed])
+    mqtt_sender.send_message("left", [left_speed, right_speed])
 
 def handle_right(left_entry_box, right_entry_box, mqtt_sender):
     """
@@ -209,7 +209,7 @@ def handle_right(left_entry_box, right_entry_box, mqtt_sender):
     left_speed = left_entry_box.get()
     right_speed = right_entry_box.get()
     print('right')
-    mqtt_sender.send_message("right", [left_speed, -right_speed])
+    mqtt_sender.send_message("right", [left_speed, right_speed])
 
 def handle_stop(mqtt_sender):
     """
@@ -228,7 +228,7 @@ def handle_raise_arm(mqtt_sender):
     Tells the robot to raise its Arm until its touch sensor is pressed.
       :type  mqtt_sender:  com.MqttClient
     """
-
+    
 
 def handle_lower_arm(mqtt_sender):
     mqtt_sender.send_message("lower_arm")
