@@ -21,8 +21,8 @@ def main():
     # run_test_calibrate()
     # run_test_move_arm()
     # run_test_lower_arm()
-    real_thing()
-    test_go_straight_for_inches_using_encoder()
+    # real_thing()
+    # test_go_straight_for_inches_using_encoder()
 
 
 def run_test_arm():
@@ -58,6 +58,7 @@ def real_thing():
 def test_go_straight_for_inches_using_encoder():
     robot = rosebot.RoseBot()
     robot.drive_system.go_straight_for_inches_using_encoder(24, 100)
+
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
