@@ -159,6 +159,7 @@ def get_control_frame(window, mqtt_sender):
 # Handlers for Buttons in the Teleoperation frame.
 ###############################################################################
 def handle_forward(left_entry_box, right_entry_box, mqtt_sender):
+
     """
     Tells the robot to move using the speeds in the given entry boxes,
     with the speeds used as given.
@@ -166,9 +167,9 @@ def handle_forward(left_entry_box, right_entry_box, mqtt_sender):
       :type  right_entry_box:  ttk.Entry
       :type  mqtt_sender:      com.MqttClient
     """
-    # left_speed = left_entry_box.get()
-    # right_speed = right_entry_box.get()
-    # mqtt_sender.send_message("go", [left_speed, right_speed])
+    left_speed = left_entry_box.get()
+    right_speed = right_entry_box.get()
+    mqtt_sender.send_message("forward", [left_speed, right_speed])
 
 def handle_backward(left_entry_box, right_entry_box, mqtt_sender):
     """
