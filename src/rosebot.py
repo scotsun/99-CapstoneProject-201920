@@ -31,9 +31,12 @@ class RoseBot(object):
     def __init__(self):
         # Use these instance variables
         self.sensor_system = SensorSystem()
+        self.sound_system = SoundSystem(Beeper,ToneMaker,SpeechMaker,SongMaker,self.sensor_system.touch_sensor)
+        # self.led_system = LEDSystem()
         self.drive_system = DriveSystem(self.sensor_system)
         self.arm_and_claw = ArmAndClaw(self.sensor_system.touch_sensor)
-
+        # self.beacon_system = BeaconSystem()
+        # self.display_system = DisplaySystem()
 
 ###############################################################################
 #    DriveSystem
@@ -324,9 +327,9 @@ class SoundSystem(object):
                 break
     def beep_for_n_times(self,n):
         for k in range(n):
-            self.beeper.beep()
+            self.beeper().beep()
     def tone_freq(self,freq,duration):
-        self.tone_maker.tone(freq,duration)
+        self.tone_maker().tone(freq,duration)
 
 
 

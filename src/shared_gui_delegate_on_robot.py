@@ -45,3 +45,4 @@ class DelegateThatReceives(object):
 
     def handle_exit(self):
         print('exit')
+
