@@ -47,7 +47,7 @@ class DelegateThatReceives(object):
 
     def go_straight_with_seconds(self, seconds, speed):
         self.robot.drive_system.go_straight_for_seconds(self, seconds, speed)
-        
+
     def go_for_inches_time_approach(self, inches, speed):
         self.robot.drive_system.go_straight_for_inches_using_time(inches, speed)
 
