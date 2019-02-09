@@ -38,7 +38,8 @@ def main():
     main_frame=ttk.Frame(root, padding=10, borderwidth=5, relief="groove")
     main_frame.grid()
 
-    teleop_frame, arm_frame, control_frame=get_shared_frames(main_frame, mqtt_sender)
+    teleop_frame, arm_frame, control_frame, drive_system_frame=get_shared_frames(main_frame, mqtt_sender)
+
 
 
     # -------------------------------------------------------------------------
@@ -54,7 +55,7 @@ def main():
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
-    grid_frames(teleop_frame,arm_frame,control_frame)
+    grid_frames(teleop_frame,arm_frame,control_frame,drive_system_frame)
 
 
     # -------------------------------------------------------------------------
@@ -68,14 +69,16 @@ def get_shared_frames(main_frame, mqtt_sender):
     teleop_frame = shared_gui.get_teleoperation_frame(main_frame,mqtt_sender)
     arm_frame=shared_gui.get_arm_frame(main_frame,mqtt_sender)
     control_frame=shared_gui.get_control_frame(main_frame,mqtt_sender)
-    return(teleop_frame,arm_frame,control_frame)
+    drive_system_frame=shared_gui.get_drive_system_frame(main_frame,mqtt_sender)
+    return(teleop_frame,arm_frame,control_frame,drive_system_frame)
     pass
 
 
-def grid_frames(teleop_frame, arm_frame, control_frame):
+def grid_frames(teleop_frame, arm_frame, control_frame,drive_system_frame):
     teleop_frame.grid(row=0,column=0)
     arm_frame.grid(row=1,column=0)
     control_frame.grid(row=2,column=0)
+    drive_system_frame.grid(row=3,column=0)
     pass
 
 
