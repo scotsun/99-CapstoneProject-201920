@@ -132,6 +132,7 @@ def get_control_frame(window, mqtt_sender):
     frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
     frame.grid()
 
+
     # Construct the widgets on the frame:
     frame_label = ttk.Label(frame, text="Control")
     quit_robot_button = ttk.Button(frame, text="Stop the robot's program")
