@@ -108,7 +108,7 @@ class DriveSystem(object):
         self.go(speed, speed)
 
         while True:
-            if (time.time()-start)*10/100 > inches:
+            if (time.time()-start)*10*speed/100 > inches:
                 self.stop()
                 break
 
