@@ -148,6 +148,35 @@ def get_control_frame(window, mqtt_sender):
 
     return frame
 
+def drive_system_frame(window, mqtt_sender):
+    # Construct the frame
+    frame = ttk.Frame(window, padding=10, borderwith=5, relief="ridge")
+    frame.grid()
+    frame_label = ttk.Label(frame, text="Control")
+    frame_label.grid()
+
+    speed_button = ttk.Button(frame, text="Speed")
+    speed_button.grid()
+    speed_entry = ttk.Entry(frame)
+    speed_entry.grid()
+
+    time_button = ttk.Button(frame, text="Time")
+    time_button.grid()
+    time_entry = ttk.Entry(frame)
+    time_entry.grid()
+
+    distance_button = ttk.Button(frame, text="Distance")
+    distance_button.grid()
+    distance_entry = ttk.Entry(frame)
+    distance_entry.grid()
+
+    encoder_button = ttk.Button(frame, text="Encoder")
+    encoder_button.grid()
+    encoder_entry = ttk.Entry(frame, text="Encoder")
+    encoder_entry.grid()
+
+    return frame
+
 ###############################################################################
 ###############################################################################
 # The following specifies, for each Button,
