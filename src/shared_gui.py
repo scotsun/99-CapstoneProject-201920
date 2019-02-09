@@ -152,7 +152,7 @@ def get_control_frame(window, mqtt_sender):
 
 def get_drive_system_frame(window, mqtt_sender):
     # Construct the frame
-    frame = ttk.Frame(window, padding=10, borderwith=5, relief="ridge")
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
     frame.grid()
     frame_label = ttk.Label(frame, text="Control")
     frame_label.grid()
