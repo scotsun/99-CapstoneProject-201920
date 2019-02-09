@@ -177,13 +177,13 @@ def get_drive_system_frame(window, mqtt_sender):
     inches_encoder_entry = ttk.Entry(frame)
     inches_encoder_entry.grid(row=3, column=0)
 
-    button_go_straight_with_seconds = ttk.Button(frame, text="1")
+    button_go_straight_with_seconds = ttk.Button(frame, text="SecondsMethod")
     button_go_straight_with_seconds.grid(row=4, column=0)
 
-    button_go_for_inches_time_approach = ttk.Button(frame, text="2")
+    button_go_for_inches_time_approach = ttk.Button(frame, text="TimeW/Inches")
     button_go_for_inches_time_approach.grid(row=4, column=1)
 
-    button_go_for_inches_encoder_approach = ttk.Button(frame, text="3")
+    button_go_for_inches_encoder_approach = ttk.Button(frame, text="TimeW/Encoder")
     button_go_for_inches_encoder_approach.grid(row=4, column=2)
 
     # Set command functions
@@ -230,7 +230,6 @@ def handle_backward(left_entry_box, right_entry_box, mqtt_sender):
     """
     left_speed = left_entry_box.get()
     right_speed = right_entry_box.get()
-    print("Message Sent")
     mqtt_sender.send_message("backward", [left_speed, right_speed])
 
 def handle_left(left_entry_box, right_entry_box, mqtt_sender):
@@ -341,14 +340,14 @@ def handle_go_straight_with_seconds(time_entry, speed_entry, mqtt_sender):
     """
     time = int(time_entry.get())
     speed = int(speed_entry.get())
-    mqtt_sender.send_message("go_straight_with_seconds", [time, speed])
+    mqtt_sender.send_message("go_straight_using_seconds", [time, speed])
 
 
 def handle_go_for_inches_time_approach(inches_time_entry, speed_entry, mqtt_sender):
 
     inches = int(inches_time_entry.get())
     speed = int(speed_entry.get())
-    mqtt_sender.send_message("go_for_inches_time_approach", [inches, speed])
+    mqtt_sender.send_message("go_for_inches_w_time_approach", [inches, speed])
 
 
 def handle_go_for_inches_encoder_approach(inches_encoder_entry, speed_entry, mqtt_sender):
