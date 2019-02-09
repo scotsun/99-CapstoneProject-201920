@@ -148,7 +148,8 @@ def get_control_frame(window, mqtt_sender):
 
     return frame
 
-def drive_system_frame(window, mqtt_sender):
+
+def get_drive_system_frame(window, mqtt_sender):
     # Construct the frame
     frame = ttk.Frame(window, padding=10, borderwith=5, relief="ridge")
     frame.grid()
