@@ -157,25 +157,42 @@ def get_drive_system_frame(window, mqtt_sender):
     frame_label = ttk.Label(frame, text="Control")
     frame_label.grid()
 
-    speed_button = ttk.Button(frame, text="Speed")
-    speed_button.grid()
+    speed_label = ttk.Label(frame, text="Speed")
+    speed_label.grid(row=0, column=0)
     speed_entry = ttk.Entry(frame)
-    speed_entry.grid()
+    speed_entry.grid(row=1, column=0)
 
-    time_button = ttk.Button(frame, text="Time")
-    time_button.grid()
+    time_label = ttk.Label(frame, text="Time")
+    time_label.grid(row=0, column=1)
     time_entry = ttk.Entry(frame)
-    time_entry.grid()
+    time_entry.grid(row=1, column=1)
 
-    distance_button = ttk.Button(frame, text="Distance")
-    distance_button.grid()
-    distance_entry = ttk.Entry(frame)
-    distance_entry.grid()
+    inches_time_label = ttk.Label(frame, text="Inches for Time")
+    inches_time_label.grid(row=0, column=2)
+    inches_time_entry = ttk.Entry(frame)
+    inches_time_entry.grid(row=1, column=2)
 
-    encoder_button = ttk.Button(frame, text="Encoder")
-    encoder_button.grid()
-    encoder_entry = ttk.Entry(frame, text="Encoder")
-    encoder_entry.grid()
+    inches_encoder_label = ttk.Label(frame, text="Inches for Encoder")
+    inches_encoder_label.grid(row=2, column=0)
+    inches_encoder_entry = ttk.Entry(frame)
+    inches_encoder_entry.grid(row=3, column=0)
+
+    button_go_straight_with_seconds = ttk.Button(frame, text="1")
+    button_go_straight_with_seconds.grid(row=4, column=0)
+
+    button_go_for_inches_time_approach = ttk.Button(frame, text="2")
+    button_go_for_inches_time_approach.grid(row=4, column=1)
+
+    button_go_for_inches_encoder_approach = ttk.Button(frame, text="3")
+    button_go_for_inches_encoder_approach.grid(row=4, column=2)
+
+    # Set command functions
+    button_go_straight_with_seconds["command"] = lambda: handle_go_straight_with_seconds(
+        time_entry, speed_entry, mqtt_sender)
+    button_go_for_inches_time_approach["command"] = lambda: handle_go_for_inches_time_approach(
+        inches_time_entry, speed_entry, mqtt_sender)
+    button_go_for_inches_encoder_approach["command"] = lambda: handle_go_for_inches_encoder_approach(
+        inches_encoder_entry, speed_entry, mqtt_sender)
 
     return frame
 
@@ -312,3 +329,30 @@ def handle_exit(mqtt_sender):
     print('Blub')
     handle_quit(mqtt_sender)
     exit()
+
+
+###############################################################################
+# Handlers for Buttons in the Drive System frame.
+###############################################################################
+def handle_go_straight_with_seconds(time_entry, speed_entry, mqtt_sender):
+    """
+    Tells the robot to move straight for a given number of seconds
+    :type mqtt_sender: com.MqttClient
+    """
+    time = int(time_entry.get())
+    speed = int(speed_entry.get())
+    mqtt_sender.send_message("go_straight_with_seconds", [time, speed])
+
+
+def handle_go_for_inches_time_approach(inches_time_entry, speed_entry, mqtt_sender):
+
+    inches = int(inches_time_entry.get())
+    speed = int(speed_entry.get())
+    mqtt_sender.send_message("go_for_inches_time_approach", [inches, speed])
+
+
+def handle_go_for_inches_encoder_approach(inches_encoder_entry, speed_entry, mqtt_sender):
+
+    inches = int(inches_encoder_entry.get())
+    speed = int(speed_entry.get())
+    mqtt_sender.send_message("go_for_inches_encoder_approach", [inches, speed])
