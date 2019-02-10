@@ -53,3 +53,12 @@ class DelegateThatReceives(object):
 
     def go_for_inches_encoder_approach(self, inches, speed):
         self.robot.drive_system.go_straight_for_inches_using_encoder(inches, speed)
+
+    def beep_n_times(self, number_of_beeps):
+        self.robot.sound_system.beep_n_times(number_of_beeps)
+
+    def play_frequency_for_duration(self, frequency, duration):
+        self.robot.sound_system.play_frequency_for_duration(frequency, duration)
+
+    def speak_phrase(self, phrase):
+        self.robot.sound_system.speak_phrase(phrase)

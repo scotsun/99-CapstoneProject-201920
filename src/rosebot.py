@@ -317,17 +317,19 @@ class SoundSystem(object):
         self.touch_sensor=touch_sensor
 
     def tones_until_touch_sensor_is_pressed(self):
-        m=0
+        m = 0
         while True:
-            m=m+100
-            self.tone_maker.tone(m,1)
+            m = m+100
+            self.tone_maker.tone(m, 1)
             if self.touch_sensor.is_pressed():
                 break
-    def beep_for_n_times(self,n):
+
+    def beep_for_n_times(self, n):
         for k in range(n):
             self.beeper().beep()
-    def tone_freq(self,freq,duration):
-        self.tone_maker().tone(freq,duration)
+
+    def tone_freq(self, freq, duration):
+        self.tone_maker().tone(freq, duration)
 
 
 
