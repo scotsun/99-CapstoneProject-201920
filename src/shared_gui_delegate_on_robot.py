@@ -40,12 +40,12 @@ class DelegateThatReceives(object):
     def move_arm_to_position(self,arm_position):
         self.robot.arm_and_claw.move_arm_to_position(arm_position)
 
-    def handle_quit(self):
-        print('quit')
+    def quit(self):
         self.is_time_to_stop = True
 
-    def handle_exit(self):
+    def exit(self):
         print('exit')
+
 
     def go_straight_using_seconds(self, seconds, speed):
         self.robot.drive_system.go_straight_for_seconds(seconds, speed)
