@@ -358,8 +358,22 @@ class SoundSystem(object):
         self.tone_maker = ToneMaker()
         self.speech_maker = SpeechMaker()
         self.song_maker = SongMaker()
+        #self.touch_sensor = TouchSensor()
 
+    #def tones_until_touch_sensor_is_pressed(self):
+        #m = 0
+        #while True:
+            #m = m + 100
+            #self.tone_maker.play_tone(m, 1)
+            #if self.touch_sensor.is_pressed():
+                #break
 
+    def beep_for_n_times(self, n):
+        for k in range(n):
+            self.beeper.beep()
+
+    def tone_freq(self, freq, duration):
+        self.tone_maker.play_tone(freq, duration)
 ###############################################################################
 #    LEDSystem
 ###############################################################################
