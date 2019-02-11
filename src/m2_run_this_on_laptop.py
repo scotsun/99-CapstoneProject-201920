@@ -38,7 +38,7 @@ def main():
     main_frame=ttk.Frame(root, padding=10, borderwidth=5, relief="groove")
     main_frame.grid()
 
-    teleop_frame, arm_frame, control_frame, drive_system_frame=get_shared_frames(main_frame, mqtt_sender)
+    teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame=get_shared_frames(main_frame, mqtt_sender)
 
 
 
@@ -70,7 +70,8 @@ def get_shared_frames(main_frame, mqtt_sender):
     arm_frame=shared_gui.get_arm_frame(main_frame,mqtt_sender)
     control_frame=shared_gui.get_control_frame(main_frame,mqtt_sender)
     drive_system_frame=shared_gui.get_drive_system_frame(main_frame,mqtt_sender)
-    return(teleop_frame,arm_frame,control_frame,drive_system_frame)
+    sound_system_frame=shared_gui.get_sound_system_frame(main_frame,mqtt_sender)
+    return(teleop_frame,arm_frame,control_frame,drive_system_frame,sound_system_frame)
     pass
 
 
