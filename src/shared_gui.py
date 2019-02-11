@@ -366,10 +366,9 @@ def handle_exit(mqtt_sender):
     Then exit this program.
       :type mqtt_sender: com.MqttClient
     """
-    print('Blub')
+    print('Exit')
     handle_quit(mqtt_sender)
     exit()
-
 
 ###############################################################################
 # Handlers for Buttons in the Drive System frame.
