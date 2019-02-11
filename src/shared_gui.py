@@ -222,6 +222,10 @@ def get_sound_system_frame(window, mqtt_sender):
     speak_button = ttk.Button(frame, text="Speak")
     speak_button.grid(row=5, column=2)
 
+    beep_button["command"] = lambda: handle_beep(mqtt_sender)
+    play_tone_button["command"] = lambda: handle_frequency(mqtt_sender)
+    speak_button["command"] = lambda: handle_speak_phrase(mqtt_sender)
+
     return frame
 
 
@@ -398,16 +402,16 @@ def handle_go_for_inches_encoder_approach(inches_encoder_entry, speed_entry, mqt
 ###################################################################################
 
 
-def handle_beep(number_of_beeps, mqtt_sender):
+def handle_beep(mqtt_sender):
     print('beep')
-    mqtt_sender.send_message("beep_n_times", [number_of_beeps])
+    mqtt_sender.send_message("beep_n_times")
 
 
-def handle_frequency(duration, frequency, mqtt_sender):
+def handle_frequency(mqtt_sender):
     print('frequency')
-    mqtt_sender.send_message("play_frequency_for_duration", [frequency, duration])
+    mqtt_sender.send_message("play_frequency_for_duration")
 
 
-def handle_speak_phrase(mqtt_sender, phrase):
+def handle_speak_phrase(mqtt_sender):
     print('Phrase')
-    mqtt_sender.send_message("speak_phrase", [phrase])
+    mqtt_sender.send_message("speak_phrase")
