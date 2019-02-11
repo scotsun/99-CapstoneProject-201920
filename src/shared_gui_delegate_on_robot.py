@@ -42,6 +42,7 @@ class DelegateThatReceives(object):
 
     def handle_quit(self):
         print('quit')
+        self.is_time_to_stop = False
 
     def handle_exit(self):
         print('exit')
