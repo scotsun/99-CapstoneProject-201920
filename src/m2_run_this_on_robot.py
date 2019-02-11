@@ -29,7 +29,7 @@ def real_thing():
 
     while True:
         time.sleep(0.01)
-        if my_delegate.is_time_to_stop==True:
+        if my_delegate.is_time_to_stop:
             break
 
 

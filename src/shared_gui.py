@@ -407,9 +407,9 @@ def handle_beep(mqtt_sender,number_of_beeps_button):
     mqtt_sender.send_message("beep_n_times",[number_of_beeps])
 
 
-def handle_frequency(mqtt_sender,frequency_entry,time_entry):
-    freq=int(frequency_entry.get())
-    time=int(time_entry.get())
+def handle_frequency(mqtt_sender,frequency_button,time_button):
+    freq=int(frequency_button.get())
+    time=int(time_button.get())
 
     print('frequency')
     mqtt_sender.send_message("play_frequency_for_duration",[freq,time])
