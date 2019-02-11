@@ -415,6 +415,7 @@ def handle_frequency(mqtt_sender,frequency_button,time_button):
     mqtt_sender.send_message("play_frequency_for_duration",[freq,time])
 
 
-def handle_speak_phrase(mqtt_sender):
+def handle_speak_phrase(mqtt_sender,phrase):
+    phrase=phrase.get()
     print('Phrase')
-    mqtt_sender.send_message("speak_phrase")
+    mqtt_sender.send_message("speak_phrase",[phrase])

@@ -62,4 +62,5 @@ class DelegateThatReceives(object):
         self.robot.sound_system.tone_freq(frequency, duration)
 
     def speak_phrase(self, phrase):
+        phrase=str(phrase)
         self.robot.sound_system.speak_phrase(phrase)

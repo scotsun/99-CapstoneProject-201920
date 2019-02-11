@@ -296,10 +296,11 @@ class ArmAndClaw(object):
         self.motor.reset_position()
 
     def move_arm_to_position(self, desired_arm_position):
+        desired_arm_position=int(desired_arm_position)
         while self.motor.get_position()<desired_arm_position:
             self.motor.turn_on(100)
-        while self.motor.get_position()>desired_arm_position:
-            self.motor.turn_on(-100)
+        self.lower_arm()
+
 
 
 
@@ -374,6 +375,9 @@ class SoundSystem(object):
 
     def tone_freq(self, freq, duration):
         self.tone_maker.play_tone(freq, duration)
+    def speak_phrase(self,speech):
+        self.speech_maker.speak(speech)
+
 ###############################################################################
 #    LEDSystem
 ###############################################################################
