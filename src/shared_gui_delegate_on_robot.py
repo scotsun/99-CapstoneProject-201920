@@ -65,3 +65,12 @@ class DelegateThatReceives(object):
     def speak_phrase(self, phrase):
         phrase=str(phrase)
         self.robot.sound_system.speak_phrase(phrase)
+    def go_forward_with_ir(self,distance,speed):
+        self.robot.drive_system.go_forward_until_distance_is_less_than(distance,speed)
+    def go_backward_with_ir(self,distance,speed):
+        self.robot.drive_system.go_backward_until_distance_is_greater_than(distance,speed)
+
+    def go_until_ir(self,delta,distance,speed):
+        self.robot.drive_system.go_until_distance_is_within(delta,distance,speed)
+
+

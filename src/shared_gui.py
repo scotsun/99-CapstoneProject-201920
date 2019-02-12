@@ -196,29 +196,38 @@ def get_sound_system_frame(window, mqtt_sender):
     frame.grid()
     frame_label = ttk.Label(frame, text="Sound System")
 
-    number_of_beeps_button = ttk.Button(frame, text="Number of Beeps")
+    number_of_beeps_Label= ttk.Label(frame, text="Number of Beeps")
     number_of_beeps_entry = ttk.Entry(frame, width=8)
-    frequency_button = ttk.Button(frame, text="Frequency")
+
+    frequency_label = ttk.Label(frame, text="Frequency")
     frequency_entry = ttk.Entry(frame, width=8)
-    time_button = ttk.Button(frame, text="Time")
+
+    time_label = ttk.Label(frame, text="Time")
     time_entry = ttk.Entry(frame, width=8)
-    given_phrase_button = ttk.Button(frame, text="Phrase")
+
+    given_phrase_button = ttk.Label(frame, text="Phrase")
     given_phrase_entry = ttk.Entry(frame, width=8)
 
     frame_label.grid(row=0, column=1)
-    number_of_beeps_button.grid(row=1, column=0)
+
+    number_of_beeps_Label.grid(row=1, column=0)
     number_of_beeps_entry.grid(row=2, column=0)
-    frequency_button.grid(row=3, column=0)
+
+    frequency_label.grid(row=3, column=0)
     frequency_entry.grid(row=4, column=0)
-    time_button.grid(row=1, column=2)
+
+    time_label.grid(row=1, column=2)
     time_entry.grid(row=2, column=2)
+
     given_phrase_button.grid(row=3, column=2)
     given_phrase_entry.grid(row=4, column=2)
 
     beep_button = ttk.Button(frame, text="Beep")
     beep_button.grid(row=5, column=0)
+
     play_tone_button = ttk.Button(frame, text="Play Tone")
     play_tone_button.grid(row=5, column=1)
+
     speak_button = ttk.Button(frame, text="Speak")
     speak_button.grid(row=5, column=2)
 
@@ -228,6 +237,52 @@ def get_sound_system_frame(window, mqtt_sender):
 
     return frame
 
+def get_IR_driving_frame(window,mqtt_sender):
+    frame=ttk.Frame(window,padding=10,borderwidth=5,relief="ridge")
+
+    frame.grid()
+    frame_label=ttk.Label(frame, text="IR System")
+
+    forward_ir=ttk.Button(frame, text="Forward w/ IR")
+    forward_ir_entry=ttk.Entry(frame, width=8)
+
+    backwards_ir=ttk.Button(frame, text="Backward w/ IR")
+    backwards_ir_entry=ttk.Entry(frame, width=8)
+
+    speed=ttk.Label(frame, text='Speed')
+    speed_entry=ttk.Entry(frame, width=8)
+
+    go_until_distance_with_ir=ttk.Button(frame, text="Forward w/ IR")
+    go_until_distance_with_ir_entry=ttk.Entry(frame, width=8)
+
+    delta_ir=ttk.Label(frame,text="Delta")
+    delta_entry=ttk.Entry(frame,width=8)
+
+    #These are the positions of the various frames and buttons located in the gui
+    speed.grid(row=1,column=0)
+    speed_entry.grid(row=2,column=0)
+
+    frame_label.grid(row=0,column=0)
+
+    forward_ir.grid(row=1, column=1)
+    forward_ir_entry.grid(row=2, column=1)
+
+    backwards_ir.grid(row=3, column=1)
+    backwards_ir_entry.grid(row=4, column=1)
+
+    delta_ir.grid(row=3,column=0)
+    delta_entry.grid(row=4,column=0)
+
+    go_until_distance_with_ir.grid(row=5, column=1)
+    go_until_distance_with_ir_entry.grid(row=6, column=1)
+
+
+
+    forward_ir["command"] = lambda: handle_forward_ir(mqtt_sender,speed_entry, forward_ir_entry)
+    backwards_ir["command"] = lambda: handle_backward_ir(mqtt_sender, speed_entry, backwards_ir_entry)
+    go_until_distance_with_ir["command"]=lambda: handle_distance_ir(mqtt_sender, speed_entry, go_until_distance_with_ir_entry,delta_entry)
+
+    return(frame)
 
 
 ###############################################################################
@@ -419,3 +474,19 @@ def handle_speak_phrase(mqtt_sender,phrase):
     phrase=phrase.get()
     print('Phrase')
     mqtt_sender.send_message("speak_phrase",[phrase])
+
+def handle_forward_ir(mqtt_sender, speed_entry, handle_forward_ir_entry):
+    speed_entry=speed_entry.get()
+    distance=handle_forward_ir_entry.get()
+    mqtt_sender.send_message("go_forward_with_ir",[distance,speed_entry])
+
+def handle_backward_ir(mqtt_sender, speed_entry, handle_backward_ir_entry):
+    speed_entry=speed_entry.get()
+    distance=handle_backward_ir_entry.get()
+    mqtt_sender.send_message("go_backward_with_ir",[distance, speed_entry])
+
+def handle_distance_ir(mqtt_sender,speed_entry, go_until_distance_with_ir_entry,delta_entry):
+    delta=delta_entry.get()
+    speed_entry=speed_entry.get()
+    distance=go_until_distance_with_ir_entry.get()
+    mqtt_sender.send_message("go until distance",[delta,distance, speed_entry])

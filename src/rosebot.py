@@ -174,12 +174,38 @@ class DriveSystem(object):
     # Methods for driving that use the infrared proximity sensor.
     # -------------------------------------------------------------------------
     def go_forward_until_distance_is_less_than(self, inches, speed):
+        self.go(speed,speed)
+        t=[self.sensor_system.ir_proximity_sensor.get_distance_in_inches(),self.sensor_system.ir_proximity_sensor.get_distance_in_inches()]
+        k=1
+        time.sleep(0.1)
+        while True:
+            k = k + 1
+            t=t+[self.sensor_system.ir_proximity_sensor.get_distance_in_inches()]
+            if t[k]<inches:
+                if t[k]==t[k-1]==t[k-2]:
+                    self.stop()
+                    break
+
+
         """
         Goes forward at the given speed until the robot is less than
         the given number of inches from the nearest object that it senses.
         """
 
     def go_backward_until_distance_is_greater_than(self, inches, speed):
+        self.go(speed,speed)
+        t=[self.sensor_system.ir_proximity_sensor.get_distance_in_inches(),self.sensor_system.ir_proximity_sensor.get_distance_in_inches()]
+        k=1
+        time.sleep(0.1)
+        while True:
+            k = k + 1
+            t=t+[self.sensor_system.ir_proximity_sensor.get_distance_in_inches()]
+            if t[k]>inches:
+                if t[k]==t[k-1]==t[k-2]:
+                    self.stop()
+                    break
+
+
         """
         Goes straight at the given speed until the robot is greater than
         the given number of inches from the nearest object that it senses.
@@ -187,6 +213,12 @@ class DriveSystem(object):
         """
 
     def go_until_distance_is_within(self, delta, inches, speed):
+        while self.sensor_system.ir_proximity_sensor.get_distance_in_inches()>inches:
+            self.go_straight_for_inches_using_time(delta,abs(speed))
+        while self.sensor_system.ir_proximity_sensor.get_distance_in_inches()<inches:
+            self.go_straight_for_inches_using_time(delta,-abs(speed))
+        self.stop()
+
         """
         Goes forward or backward, repeated as necessary, until the robot is
         within the given delta of the given inches from the nearest object
@@ -343,11 +375,11 @@ class SensorSystem(object):
     def __init__(self):
         self.touch_sensor = TouchSensor(1)
         self.color_sensor = ColorSensor(3)
-        #self.ir_proximity_sensor = InfraredProximitySensor(4)
-        #self.camera = Camera()
-        # self.ir_beacon_sensor = InfraredBeaconSensor(4)
-        # self.beacon_system =
-        # self.display_system =
+        self.ir_proximity_sensor = InfraredProximitySensor(4)
+        self.camera = Camera()
+        self.ir_beacon_sensor = InfraredBeaconSensor(4)
+        #self.beacon_system =
+        #self.display_system =
 
 
 
