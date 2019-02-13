@@ -43,7 +43,7 @@ def main():
     personal_frame.grid()
 
     teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, IR_driving_frame,ColorSensor_driving_frame,camera_frame=get_shared_frames(main_frame, mqtt_sender)
-    teleop_frame=get_personal_frame(personal_frame,mqtt_sender)
+    teleop_frame, personal_frame2=get_personal_frame(personal_frame,mqtt_sender)
 
 
 
@@ -61,7 +61,7 @@ def main():
     # Grid the frames.
     # -------------------------------------------------------------------------
     grid_frames(teleop_frame,arm_frame,control_frame,drive_system_frame,sound_system_frame,IR_driving_frame,ColorSensor_driving_frame,camera_frame)
-
+    grid_personal_frames(teleop_frame,personal_frame2)
 
     # -------------------------------------------------------------------------
     # The event loop:
@@ -71,7 +71,8 @@ def main():
 def get_personal_frame(personal_frame,mqtt_sender):
     import shared_gui
     teleop_frame=shared_gui.get_teleoperation_frame(personal_frame,mqtt_sender)
-    return(teleop_frame)
+    personal_frame2=shared_gui.get_personal_frame_2(personal_frame,mqtt_sender)
+    return(teleop_frame,personal_frame2)
 
 def get_shared_frames(main_frame, mqtt_sender):
     import shared_gui
@@ -86,7 +87,8 @@ def get_shared_frames(main_frame, mqtt_sender):
     return(teleop_frame,arm_frame,control_frame,drive_system_frame,sound_system_frame,IR_driving_frame,ColorSensor_driving_frame,camera_frame)
     pass
 
-def grid_personal_frames(teleop_frame):
+def grid_personal_frames(teleop_frame,personal_frame):
+    personal_frame.grid(row=0,column=1)
     teleop_frame.grid(row=0,column=0)
     pass
 
