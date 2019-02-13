@@ -31,26 +31,35 @@ def main():
     root = tkinter.Tk()
     root.title("CSSE 120 Capstone Project")
 
+    personal_root = tkinter.Tk()
+    personal_root.title("Personal Feature")
+
     # -------------------------------------------------------------------------
     # The main frame, upon which the other frames are placed.
     # -------------------------------------------------------------------------
     main_frame = ttk.Frame(root, padding=10)
     main_frame.grid()
 
+    personal_frame = ttk.Frame(personal_root, padding=10)
+    personal_frame.grid()
+
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
     # -------------------------------------------------------------------------
-    teleop_frame, arm_frame, control_frame, drive_system_frame = get_shared_frames(main_frame, mqtt_sender)
+    teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, \
+    ColorSensor_driving_frame, IR_driving_frame= get_shared_frames(main_frame, mqtt_sender)
 
     # -------------------------------------------------------------------------
     # Frames that are particular to my individual contributions to the project.
     # -------------------------------------------------------------------------
     # DONE: Implement and call get_my_frames(...)
 
+
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
-    grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame)
+    grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame,
+                ColorSensor_driving_frame, IR_driving_frame)
 
     # -------------------------------------------------------------------------
     # The event loop:
@@ -58,20 +67,31 @@ def main():
     root.mainloop()
 
 
+def get_my_frame(personal_frame, mqtt_sender):
+    pass
+
+
 def get_shared_frames(main_frame, mqtt_sender):
     teleop_frame = shared_gui.get_teleoperation_frame(main_frame, mqtt_sender)
     arm_frame = shared_gui.get_arm_frame(main_frame, mqtt_sender)
     control_frame = shared_gui.get_control_frame(main_frame, mqtt_sender)
     drive_system_frame = shared_gui.get_drive_system_frame(main_frame, mqtt_sender)
-    return teleop_frame, arm_frame, control_frame, drive_system_frame
+    sound_system_frame = shared_gui.get_sound_system_frame(main_frame, mqtt_sender)
+    ColorSensor_driving_frame = shared_gui.get_ColorSensor_driving_frame(main_frame, mqtt_sender)
+    IR_driving_frame = shared_gui.get_IR_driving_frame(main_frame, mqtt_sender)
+    return teleop_frame, arm_frame, control_frame, drive_system_frame, \
+           sound_system_frame, ColorSensor_driving_frame, IR_driving_frame
 
 
-def grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame):
+def grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame,
+                sound_system_frame, ColorSensor_driving_frame, IR_driving_frame):
     teleop_frame.grid(row=0, column=0)
     arm_frame.grid(row=1, column=0)
     control_frame.grid(row=2, column=0)
-    drive_system_frame(row=3, column=0)
-
+    drive_system_frame.grid(row=3, column=0)
+    sound_system_frame.grid(row=0, column=1)
+    ColorSensor_driving_frame.grid(row=1, column=1)
+    IR_driving_frame.grid(row=2, column=1)
 
 
 # -----------------------------------------------------------------------------
