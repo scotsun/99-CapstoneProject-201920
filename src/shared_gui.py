@@ -190,6 +190,40 @@ def get_drive_system_frame(window, mqtt_sender):
 
     return frame
 
+def get_personal_frame_2(window,mqtt_sender):
+    frame=ttk.Frame(window,padding=10,borderwidth=5,relief='ridge')
+    frame.grid()
+    frame_label=ttk.Label(frame, text='Personal Frame 2')
+
+    speed_label=ttk.Label(frame, text='Speed')
+    speed_entry=ttk.Entry(frame)
+
+    freq_label=ttk.Label(frame, text='Initial Frequency')
+    freq_entry=ttk.Entry(frame)
+
+    rate_label=ttk.Label(frame,text='Rate Of Frequency Change')
+    rate_entry=ttk.Entry(frame)
+
+    movement_with_ir_and_freq=ttk.Button(frame,text='Movement with IR and Tones')
+
+
+    #Changes where the entries/labels are located
+    frame_label.grid(row=0,column=1)
+
+    speed_label.grid(row=1,column=0)
+    speed_entry.grid(row=2,column=0)
+
+    freq_label.grid(row=1,column=1)
+    freq_entry.grid(row=2,column=1)
+
+    rate_label.grid(row=1,column=2)
+    rate_entry.grid(row=2,column=2)
+
+    movement_with_ir_and_freq.grid(row=3,column=0)
+    #Commands
+    movement_with_ir_and_freq['command']= lambda: handle_go_with_ir_and_tones(mqtt_sender,freq_entry, rate_entry)
+
+    return(frame)
 
 def get_sound_system_frame(window, mqtt_sender):
     frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
@@ -564,3 +598,11 @@ def handler_go_straight_until_color_is_not_button(color_entry, speed_entry, mqtt
         color = color_entry.get()
     speed = int(speed_entry.get())
     mqtt_sender.send_message("go_straight_until_color_is_not", [color, speed])
+
+#Personal Frame Handles
+
+def handle_go_with_ir_and_tones(mqtt_sender,freq_entry, rate_entry):
+    freq=freq_entry.get()
+    rate=rate_entry.get()
+    mqtt_sender.send_message("Go with IR and tones",[freq,rate])
+    
