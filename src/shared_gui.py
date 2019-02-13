@@ -364,6 +364,34 @@ def get_ColorSensor_driving_frame(window, mqtt_sender):
         handler_go_straight_until_color_is_not_button(color_entry, speed_entry, mqtt_sender)
     )
     return frame
+
+def get_camera_frame(window, mqtt_sender):
+    frame = ttk.Frame(window, padding=10, boarderwidth=10, relief="ridge")
+    frame.grid()
+    frame_label = ttk.Label(frame, text="Camera Frame")
+
+    print_blob_button = ttk.Button(frame, text="Print Blob")
+    speed_label = ttk.Label(frame, text="Speed")
+    area_label = ttk.Label(frame, text="Area")
+    speed_entry = ttk.Entry(frame, width=8)
+    area_entry = ttk.Entry(frame, width=8)
+    display_camera_data_button = ttk.Button(frame, text="Display Camera Data")
+    spin_clockwise_button = ttk.Button(frame, text="Spin Clockwise")
+    spin_counter_clockwise_button = ttk.Button(frame, text="Spin CounterClockwise")
+
+    frame_label.grid(row=0, column=1)
+    print_blob_button.grid(row=1, column=1)
+    speed_label.grid(row=1, column=0)
+    speed_entry.grid(row=2, column=0)
+    area_label.grid(row=1, column=2)
+    area_entry.grid(row=2, column=2)
+    display_camera_data_button.grid(row=1, column=3)
+    spin_clockwise_button.grid(row=1, column=4)
+    spin_counter_clockwise_button.grid(row=1, column=5)
+
+    display_camera_data_button["command"] = lambda: handler_camera_data_button(mqtt_sender)
+    spin_clockwise_button["command"] = lambda: handler_clockwise_button(mqtt_sender, speed, area)
+    spin_counter_clockwise_button['command'] = lambda: handler_counter_clockwise_button(mqtt_sender, speed, area)
 ###############################################################################
 ###############################################################################
 # The following specifies, for each Button,
