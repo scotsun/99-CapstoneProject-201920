@@ -110,3 +110,12 @@ class DelegateThatReceives(object):
         self.robot.arm_and_claw.move_arm_to_position(1000)
         time.sleep(2)
         self.robot.stop()
+
+    def Spin_and_grab(self,direction,speed,freq,rate):
+        if direction=='clockwise':
+            self.robot.drive_system.spin_clockwise_until_sees_object(speed,25)
+        else:
+            self.robot.drive_system.spin_counterclockwise_until_sees_object(speed,25)
+        self.Go_with_IR_and_tones(freq,rate,speed)
+
+

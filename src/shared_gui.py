@@ -374,7 +374,11 @@ def get_personal_frame_2(window,mqtt_sender):
     rate_label=ttk.Label(frame,text='Rate Of Frequency Change')
     rate_entry=ttk.Entry(frame)
 
+    spin_label=ttk.Label(frame,text='Input clockwise/c-clockwise')
+    spin_entry=ttk.Entry(frame)
+
     movement_with_ir_and_freq=ttk.Button(frame,text='Movement with IR and Tones')
+    spin_and_grab=ttk.Button(frame,text='Spins and finds object, then grabs')
 
 
     #Changes where the entries/labels are located
@@ -389,9 +393,14 @@ def get_personal_frame_2(window,mqtt_sender):
     rate_label.grid(row=1,column=2)
     rate_entry.grid(row=2,column=2)
 
+    spin_label.grid(row=1,column=3)
+    spin_entry.grid(row=2,column=3)
+
     movement_with_ir_and_freq.grid(row=3,column=0)
+    spin_and_grab.grid(row=3,column=1)
     #Commands
     movement_with_ir_and_freq['command']= lambda: handle_go_with_ir_and_tones(mqtt_sender,freq_entry, rate_entry,speed_entry)
+    spin_and_grab['command']= lambda: handle_spin_and_grab(mqtt_sender,spin_entry,speed_entry,freq_entry,rate_entry)
 
     return(frame)
 ###############################################################################
@@ -628,15 +637,20 @@ def handler_go_straight_until_color_is_not_button(color_entry, speed_entry, mqtt
         color = color_entry.get()
     speed = int(speed_entry.get())
     mqtt_sender.send_message("go_straight_until_color_is_not", [color, speed])
-#------------------------
-#Personal Frame Handles--
-#------------------------
+#------------------------------------------------------------
+#Personal Frame Handles--------------------------------------
+#------------------------------------------------------------
 def handle_go_with_ir_and_tones(mqtt_sender,freq_entry, rate_entry,speed_entry):
     freq=freq_entry.get()
     rate=rate_entry.get()
     speed=speed_entry.get()
     mqtt_sender.send_message("Go_with_IR_and_tones",[freq,rate,speed])
-
+def handle_spin_and_grab(mqtt_sender,spin_entry, speed_entry,freq_entry,rate_entry):
+    spin=spin_entry.get()
+    speed=speed_entry.get()
+    freq=freq_entry.get()
+    rate=rate_entry.get()
+    mqtt_sender.send_message("Spin_and_grab",[spin_entry,speed_entry,freq,rate])
 
 # Camera Handles
 def handler_camera_data_button(mqtt_sender):
