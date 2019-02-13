@@ -85,5 +85,14 @@ class DelegateThatReceives(object):
     def go_straight_until_color_is_not(self, color, speed):
         self.robot.drive_system.go_straight_until_color_is_not(color, speed)
 
+    def display_camera_data(self):
+        self.robot.drive_system.display_camera_date()
+
+    def spin_clockwise_until_sees_object(self, speed, area):
+        self.robot.drive_system.spin_clockwise_until_sees_object(int(speed), int(area))
+
+    def spin_counterclockwise_until_sees_object(self, speed, area):
+        self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), int(area))
+
 
 

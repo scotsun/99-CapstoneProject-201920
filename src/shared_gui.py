@@ -635,4 +635,17 @@ def handle_go_with_ir_and_tones(mqtt_sender,freq_entry, rate_entry):
     freq=freq_entry.get()
     rate=rate_entry.get()
     mqtt_sender.send_message("Go with IR and tones",[freq,rate])
-    
+
+
+# Camera Handles
+def handler_camera_data_button(mqtt_sender):
+    mqtt_sender.send_message("display_camera_data")
+
+
+def handler_spin_clockwise_button(mqtt_sender, speed, area):
+    mqtt_sender.send_message("spin_clockwise_until_sees_object", [speed, area])
+
+
+def handler_counter_clockwise_button(mqtt_sender, speed, area):
+    mqtt_sender.send_message("spin_counterclockwise_until_sees_object", [speed, area])
+
