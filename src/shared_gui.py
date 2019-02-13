@@ -284,7 +284,52 @@ def get_IR_driving_frame(window,mqtt_sender):
 
     return(frame)
 
+def get_ColorSensor_driving_frame(window, mqtt_sender):
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
 
+    intensity_label = ttk.Label(frame, text="Intensity")
+    color_label = ttk.Label(frame, text="Color")
+    speed_label = ttk.Label(frame, text="Speed")
+
+    intensity_entry = ttk.Entry(frame, width=8)
+    color_entry = ttk.Entry(frame, width=8)
+    speed_entry = ttk.Entry(frame, width=8)
+
+    go_straight_until_intensity_is_less_than_button = ttk.Button(frame,
+                                                                 text="Go 'til In is less")
+    go_straight_until_intensity_is_greater_than_button = ttk.Button(frame,
+                                                                    text="Go 'til In is greater")
+    go_straight_until_color_is_button = ttk.Button(frame,
+                                                   text="Go 'til color")
+    go_straight_until_color_is_not_button = ttk.Button(frame,
+                                                       text="Go 'til Not color")
+
+    intensity_label.grid(row=0, column=0)
+    color_label.grid(row=0, column=2)
+    speed_label.grid(row=0, column=4)
+    intensity_entry.grid(row=1, column=0)
+    color_entry.grid(row=1, column=2)
+    speed_entry.grid(row=1, column=4)
+    go_straight_until_intensity_is_less_than_button.grid(row=2, column=1)
+    go_straight_until_intensity_is_greater_than_button.grid(row=2, column=3)
+    go_straight_until_color_is_button.grid(row=3, column=1)
+    go_straight_until_color_is_not_button.grid(row=3, column=3)
+
+    # set button callbacks
+    go_straight_until_intensity_is_less_than_button["command"] = lambda: (
+        handler_go_straight_until_intensity_is_less_than_button(intensity_entry, speed_entry, mqtt_sender)
+    )
+    go_straight_until_intensity_is_greater_than_button["command"] = lambda: (
+        handler_go_straight_until_intensity_is_greater_than_button(intensity_entry, speed_entry, mqtt_sender)
+    )
+    go_straight_until_color_is_button["command"] = lambda: (
+        handler_go_straight_until_color_is_button(color_entry, speed_entry, mqtt_sender)
+    )
+    go_straight_until_color_is_not_button["command"] = lambda: (
+        handler_go_straight_until_color_is_not_button(color_entry, speed_entry, mqtt_sender)
+    )
+    return frame
 ###############################################################################
 ###############################################################################
 # The following specifies, for each Button,
@@ -490,3 +535,32 @@ def handle_distance_ir(mqtt_sender,speed_entry, go_until_distance_with_ir_entry,
     speed_entry=speed_entry.get()
     distance=go_until_distance_with_ir_entry.get()
     mqtt_sender.send_message("go until distance",[delta,distance, speed_entry])
+
+def handler_go_straight_until_intensity_is_less_than_button(intensity_entry, speed_entry, mqtt_sender):
+    intensity = int(intensity_entry.get())
+    speed = int(speed_entry.get())
+    mqtt_sender.send_message("go_straight_until_intensity_is_less_than", [intensity, speed])
+
+
+def handler_go_straight_until_intensity_is_greater_than_button(intensity_entry, speed_entry, mqtt_sender):
+    intensity = int(intensity_entry.get())
+    speed = int(speed_entry.get())
+    mqtt_sender.send_message("go_straight_until_intensity_is_greater_than", [intensity, speed])
+
+
+def handler_go_straight_until_color_is_button(color_entry, speed_entry, mqtt_sender):
+    if len(color_entry.get()) == 1:
+        color = int(color_entry.get())
+    else:
+        color = color_entry.get()
+    speed = int(speed_entry.get())
+    mqtt_sender.send_message("go_straight_until_color_is", [color, speed])
+
+
+def handler_go_straight_until_color_is_not_button(color_entry, speed_entry, mqtt_sender):
+    if len(color_entry.get()) == 1:
+        color = int(color_entry.get())
+    else:
+        color = color_entry.get()
+    speed = int(speed_entry.get())
+    mqtt_sender.send_message("go_straight_until_color_is_not", [color, speed])

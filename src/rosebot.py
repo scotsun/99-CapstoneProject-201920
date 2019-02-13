@@ -134,17 +134,30 @@ class DriveSystem(object):
     # Methods for driving that use the color sensor.
     # -------------------------------------------------------------------------
 
+
     def go_straight_until_intensity_is_less_than(self, intensity, speed):
         """
         Goes straight at the given speed until the intensity returned
         by the color_sensor is less than the given intensity.
         """
+        self.go(speed, speed)
+        while True:
+            current_intensity = self.sensor_system.color_sensor.get_reflected_light_intensity()
+            if current_intensity < intensity:
+                self.stop()
+                break
 
     def go_straight_until_intensity_is_greater_than(self, intensity, speed):
         """
         Goes straight at the given speed until the intensity returned
         by the color_sensor is greater than the given intensity.
         """
+        self.go(speed, speed)
+        while True:
+            current_intensity = self.sensor_system.color_sensor.get_reflected_light_intensity()
+            if current_intensity > intensity:
+                self.stop()
+                break
 
     def go_straight_until_color_is(self, color, speed):
         """
@@ -159,6 +172,17 @@ class DriveSystem(object):
         then use the   get_color_as_name   method to access
         the color sensor's color.
         """
+        self.go(speed, speed)
+        if type(color) == int:
+            while True:
+                if self.sensor_system.color_sensor.get_color() == color:
+                    self.stop()
+                    break
+        elif type(color) == str:
+            while True:
+                if self.sensor_system.color_sensor.get_color_as_name() == color:
+                    self.stop()
+                    break
 
     def go_straight_until_color_is_not(self, color, speed):
         """
@@ -168,6 +192,17 @@ class DriveSystem(object):
         Colors can be integers from 0 to 7 or any of the strings
         listed in the ColorSensor class.
         """
+        self.go(speed, speed)
+        if type(color) == int:
+            while True:
+                if self.sensor_system.color_sensor.get_color() != color:
+                    self.stop()
+                    break
+        elif type(color) == str:
+            while True:
+                if self.sensor_system.color_sensor.get_color_as_name() != color:
+                    self.stop()
+                    break
 
 
     # -------------------------------------------------------------------------
@@ -182,9 +217,10 @@ class DriveSystem(object):
             k = k + 1
             t=t+[self.sensor_system.ir_proximity_sensor.get_distance_in_inches()]
             if t[k]<inches:
-                if t[k]==t[k-1]==t[k-2]:
-                    self.stop()
-                    break
+                if t[k-1]<inches:
+                    if t[k-2]<inches:
+                        self.stop()
+                        break
 
 
         """
@@ -259,6 +295,7 @@ class DriveSystem(object):
         Prints on the Console the Blob data of the Blob that the camera sees
         (if any).
         """
+        print(self.sensor_system.camera.get_biggest_blob())
 
     def spin_clockwise_until_sees_object(self, speed, area):
         """
@@ -266,6 +303,17 @@ class DriveSystem(object):
         of the trained color whose area is at least the given area.
         Requires that the user train the camera on the color of the object.
         """
+        while True:
+            current_height = self.sensor_system.camera.get_biggest_blob().height
+            current_width = self.sensor_system.camera.get_biggest_blob().width
+            current_area = current_height * current_width
+
+            if current_area != area:
+                self.go(speed, -speed)
+                time.sleep(0.2)
+                self.stop()
+            else:
+                break
 
     def spin_counterclockwise_until_sees_object(self, speed, area):
         """
@@ -273,6 +321,19 @@ class DriveSystem(object):
         of the trained color whose area is at least the given area.
         Requires that the user train the camera on the color of the object.
         """
+
+        while True:
+            current_height = self.sensor_system.camera.get_biggest_blob().height
+            current_width = self.sensor_system.camera.get_biggest_blob().width
+            current_area = current_height * current_width
+
+            if current_area != area:
+                self.go(-speed, speed)
+                time.sleep(0.2)
+                self.stop()
+            else:
+                break
+
 
 
 ###############################################################################

@@ -73,4 +73,17 @@ class DelegateThatReceives(object):
     def go_until_ir(self,delta,distance,speed):
         self.robot.drive_system.go_until_distance_is_within(delta,distance,speed)
 
+    def go_straight_until_intensity_is_less_than(self, intensity, speed):
+        self.robot.drive_system.go_straight_until_intensity_is_less_than(intensity, speed)
+
+    def go_straight_until_intensity_is_greater_than(self, intensity, speed):
+        self.robot.drive_system.go_straight_until_intensity_is_great_than(intensity, speed)
+
+    def go_straight_until_color_is(self, color, speed):
+        self.robot.drive_system.go_straight_until_color_is(color, speed)
+
+    def go_straight_until_color_is_not(self, color, speed):
+        self.robot.drive_system.go_straight_until_color_is_not(color, speed)
+
+
 
