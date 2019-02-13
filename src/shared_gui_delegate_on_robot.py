@@ -65,12 +65,12 @@ class DelegateThatReceives(object):
     def speak_phrase(self, phrase):
         phrase=str(phrase)
         self.robot.sound_system.speak_phrase(phrase)
+
     def go_forward_with_ir(self,distance,speed):
         self.robot.drive_system.go_forward_until_distance_is_less_than(distance,speed)
     def go_backward_with_ir(self,distance,speed):
         self.robot.drive_system.go_backward_until_distance_is_greater_than(distance,speed)
-
-    def go_until_ir(self,delta,distance,speed):
+    def go_until_distance(self,delta,distance,speed):
         self.robot.drive_system.go_until_distance_is_within(delta,distance,speed)
 
     def go_straight_until_intensity_is_less_than(self, intensity, speed):
@@ -116,7 +116,7 @@ class DelegateThatReceives(object):
             self.robot.drive_system.spin_clockwise_until_sees_object(speed,25)
         else:
             self.robot.drive_system.spin_counterclockwise_until_sees_object(speed,25)
-        self.Go_with_IR_and_tones(freq,rate,speed)
+        self.m2_Go_with_IR_and_tones(freq,rate,speed)
     def P_of_PID_control(self,speed):
         original=self.robot.sensor_system.color_system.get_reflected_light_intensity()
         for k in range(5):

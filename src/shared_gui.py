@@ -251,7 +251,7 @@ def get_IR_driving_frame(window,mqtt_sender):
     speed=ttk.Label(frame, text='Speed')
     speed_entry=ttk.Entry(frame, width=8)
 
-    go_until_distance_with_ir=ttk.Button(frame, text="Forward w/ IR")
+    go_until_distance_with_ir=ttk.Button(frame, text="forward or backward w/ IR")
     go_until_distance_with_ir_entry=ttk.Entry(frame, width=8)
 
     delta_ir=ttk.Label(frame,text="Delta")
@@ -399,8 +399,8 @@ def get_personal_frame_2(window,mqtt_sender):
     movement_with_ir_and_freq.grid(row=3,column=0)
     spin_and_grab.grid(row=3,column=1)
     #Commands
-    movement_with_ir_and_freq['command']= lambda: handle_go_with_ir_and_tones(mqtt_sender,freq_entry, rate_entry,speed_entry)
-    spin_and_grab['command']= lambda: handle_spin_and_grab(mqtt_sender,spin_entry,speed_entry,freq_entry,rate_entry)
+    movement_with_ir_and_freq['command']= lambda: handle_m2_go_with_ir_and_tones(mqtt_sender,freq_entry, rate_entry,speed_entry)
+    spin_and_grab['command']= lambda: handle_m2_spin_and_grab(mqtt_sender,spin_entry,speed_entry,freq_entry,rate_entry)
 
     return(frame)
 ###############################################################################
@@ -592,7 +592,9 @@ def handle_speak_phrase(mqtt_sender,phrase):
     phrase=phrase.get()
     print('Phrase')
     mqtt_sender.send_message("speak_phrase",[phrase])
-
+#-----------------------------------
+# Handle for IR movement
+#-----------------------------------
 def handle_forward_ir(mqtt_sender, speed_entry, handle_forward_ir_entry):
     speed_entry=speed_entry.get()
     distance=handle_forward_ir_entry.get()
@@ -607,7 +609,11 @@ def handle_distance_ir(mqtt_sender,speed_entry, go_until_distance_with_ir_entry,
     delta=delta_entry.get()
     speed_entry=speed_entry.get()
     distance=go_until_distance_with_ir_entry.get()
-    mqtt_sender.send_message("go until distance",[delta,distance, speed_entry])
+    mqtt_sender.send_message("go_until_distance",[delta,distance, speed_entry])
+
+#-------------------------------------
+#Handles for intensity movement
+#-------------------------------------
 
 def handler_go_straight_until_intensity_is_less_than_button(intensity_entry, speed_entry, mqtt_sender):
     intensity = int(intensity_entry.get())
@@ -643,7 +649,7 @@ def handler_go_straight_until_color_is_not_button(color_entry, speed_entry, mqtt
 
 
 
-def handle_m2__go_with_ir_and_tones(mqtt_sender,freq_entry, rate_entry,speed_entry):
+def handle_m2_go_with_ir_and_tones(mqtt_sender,freq_entry, rate_entry,speed_entry):
     freq=freq_entry.get()
     rate=rate_entry.get()
     speed=speed_entry.get()
@@ -654,7 +660,7 @@ def handle_m2_spin_and_grab(mqtt_sender,spin_entry, speed_entry,freq_entry,rate_
     freq=freq_entry.get()
     rate=rate_entry.get()
     mqtt_sender.send_message("m2_Spin_and_grab",[spin,speed,freq,rate])
-def handler_m2_P_Of_PID_control(mqtt_sender,speed):
+def handle_m2_P_Of_PID_control(mqtt_sender,speed):
     speed=speed.get()
     mqtt_sender.send_message("P_of_PID_control",[speed])
 

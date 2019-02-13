@@ -209,17 +209,20 @@ class DriveSystem(object):
     # -------------------------------------------------------------------------
     def go_forward_until_distance_is_less_than(self, inches, speed):
         self.go(speed,speed)
-        t=[self.sensor_system.ir_proximity_sensor.get_distance_in_inches(),self.sensor_system.ir_proximity_sensor.get_distance_in_inches()]
         k=1
         time.sleep(0.1)
+        inches=int(inches)
+        diff=0.1
         while True:
             k = k + 1
-            t=t+[self.sensor_system.ir_proximity_sensor.get_distance_in_inches()]
-            if t[k]<inches:
-                if t[k-1]<inches:
-                    if t[k-2]<inches:
-                        self.stop()
-                        break
+            t=self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+            t1=self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+            print(t)
+            if abs(t-t1)<diff:
+                if t1<inches:
+                    self.stop()
+                    break
+        self.stop()
 
 
         """
@@ -228,18 +231,22 @@ class DriveSystem(object):
         """
 
     def go_backward_until_distance_is_greater_than(self, inches, speed):
-        self.go(speed,speed)
-        t=[self.sensor_system.ir_proximity_sensor.get_distance_in_inches(),self.sensor_system.ir_proximity_sensor.get_distance_in_inches()]
+        speed=int(speed)
+        self.go(-speed,-speed)
         k=1
         time.sleep(0.1)
+        inches=int(inches)
+        diff=0.1
         while True:
             k = k + 1
-            t=t+[self.sensor_system.ir_proximity_sensor.get_distance_in_inches()]
-            if t[k]>inches:
-                if t[k]==t[k-1]==t[k-2]:
+            t=self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+            t1=self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+            print(t)
+            if abs(t-t1)<diff:
+                if t1>inches:
                     self.stop()
                     break
-
+        self.stop()
 
         """
         Goes straight at the given speed until the robot is greater than
@@ -248,6 +255,8 @@ class DriveSystem(object):
         """
 
     def go_until_distance_is_within(self, delta, inches, speed):
+        inches=int(inches)
+        speed=int(speed)
         while self.sensor_system.ir_proximity_sensor.get_distance_in_inches()>inches:
             self.go_straight_for_inches_using_time(delta,abs(speed))
         while self.sensor_system.ir_proximity_sensor.get_distance_in_inches()<inches:
@@ -437,8 +446,8 @@ class SensorSystem(object):
         self.touch_sensor = TouchSensor(1)
         self.color_sensor = ColorSensor(3)
         self.ir_proximity_sensor = InfraredProximitySensor(4)
-    #   self.camera = Camera()
-       #self.ir_beacon_sensor = InfraredBeaconSensor(4)
+        #self.camera = Camera()
+        #self.ir_beacon_sensor = InfraredBeaconSensor(4)
         #self.beacon_system =
         #self.display_system =
 
