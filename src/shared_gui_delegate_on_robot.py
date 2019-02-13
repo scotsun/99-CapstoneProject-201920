@@ -94,6 +94,20 @@ class DelegateThatReceives(object):
     def spin_counterclockwise_until_sees_object(self, speed, area):
         self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), int(area))
 
+
+    def m1_Go_with_IR_and_beeps(self, inches, speed):
+        self.robot.drive_system.go(speed, speed)
+        n = 1
+        while True:
+            self.robot.sound_system.beep_for_n_times(1).wait()
+            n += 1
+            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
+                self.robot.drive_system.stop()
+                break
+
+
+
+
     def m2_Go_with_IR_and_tones(self,freq,rate,speed):
         import time
         c=self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()

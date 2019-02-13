@@ -355,8 +355,8 @@ def get_camera_frame(window, mqtt_sender):
     spin_counter_clockwise_button.grid(row=1, column=5)
 
     display_camera_data_button["command"] = lambda: handler_camera_data_button(mqtt_sender)
-    spin_clockwise_button["command"] = lambda: handler_clockwise_button(mqtt_sender, speed, area)
-    spin_counter_clockwise_button['command'] = lambda: handler_counter_clockwise_button(mqtt_sender, speed, area)
+    spin_clockwise_button["command"] = lambda: handler_spin_clockwise_button(speed_entry, area_entry, mqtt_sender)
+    spin_counter_clockwise_button['command'] = lambda: handler_spin_counterclockwise_button(speed_entry, area_entry, mqtt_sender)
 
     return frame
 
@@ -673,14 +673,14 @@ def handler_camera_data_button(mqtt_sender):
     mqtt_sender.send_message("display_camera_data")
 
 
-def handler_spin_clockwise_button(mqtt_sender, speed, area):
-    speed=speed.get()
-    area=area.get()
+def handler_spin_clockwise_button(speed_entry, area_entry, mqtt_sender):
+    speed = int(speed_entry.get())
+    area = int(area_entry.get())
     mqtt_sender.send_message("spin_clockwise_until_sees_object", [speed, area])
 
 
-def handler_counter_clockwise_button(mqtt_sender, speed, area):
-    speed=speed.get()
-    area=area.get()
+def handler_spin_counterclockwise_button(speed_entry, area_entry, mqtt_sender):
+    speed = int(speed_entry.get())
+    area = int(area_entry.get())
     mqtt_sender.send_message("spin_counterclockwise_until_sees_object", [speed, area])
 

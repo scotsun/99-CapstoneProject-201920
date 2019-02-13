@@ -40,8 +40,6 @@ def main():
     main_frame = ttk.Frame(root, padding=10)
     main_frame.grid()
 
-    personal_frame = ttk.Frame(personal_root, padding=10)
-    personal_frame.grid()
 
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
@@ -53,7 +51,7 @@ def main():
     # Frames that are particular to my individual contributions to the project.
     # -------------------------------------------------------------------------
     # DONE: Implement and call get_my_frames(...)
-
+    get_my_frame(personal_root, mqtt_sender)
 
     # -------------------------------------------------------------------------
     # Grid the frames.
@@ -67,8 +65,6 @@ def main():
     root.mainloop()
 
 
-def get_my_frame(personal_frame, mqtt_sender):
-    pass
 
 
 def get_shared_frames(main_frame, mqtt_sender):
@@ -93,6 +89,32 @@ def grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame,
     ColorSensor_driving_frame.grid(row=1, column=1)
     IR_driving_frame.grid(row=2, column=1)
 
+
+def get_my_frame(window, mqtt_sender):
+    frame = ttk.Frame(window, padding=10, borderwidth=10, relief="ridge")
+    frame.grid()
+
+    inches_label = ttk.Label(frame, text="Inches close to")
+    inches_entry = ttk.Entry(frame, width=8)
+    speed_label = ttk.Label(frame, text="Speed moving forward")
+    speed_entry = ttk.Entry(frame, width=8)
+
+    feature_eight_person_one_button = ttk.Button(frame, text="Feature 8")
+
+    inches_label.grid()
+    inches_entry.grid()
+    speed_label.grid()
+    speed_entry.grid()
+    feature_eight_person_one_button.grid()
+
+    feature_eight_person_one_button["command"] = lambda: (
+        handler_feature_eight_person_one(inches_entry, speed_entry, mqtt_sender))
+
+
+def handler_feature_eight_person_one(inches_entry, speed_entry, mqtt_sender):
+    inches = inches_entry.get()
+    speed = speed_entry.get()
+    mqtt_sender.send_message("feature_eight_person_one", [inches, speed])
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.

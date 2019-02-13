@@ -31,6 +31,10 @@ def real_thing():
         time.sleep(0.01)
         if delegate_that_receives.is_time_to_stop:
             break
+
+
+def personal_feature(self, speed, inches):
+    self.robot.DriveSystem.go_forward_until_distance_is_less_than(inches, speed)
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
