@@ -94,5 +94,28 @@ class DelegateThatReceives(object):
     def spin_counterclockwise_until_sees_object(self, speed, area):
         self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), int(area))
 
+    def Go_with_IR_and_tones(self,freq,rate,speed):
+        import time
+        c=self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+        self.robot.drive_system.go_until_distance_is_within(0.1,5,speed)
+        self.robot.arm_and_claw.move_arm_to_position(2000)
+        while self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() > 5:
+            self.robot.sound_system.tone_freq(freq+rate*(abs(c-self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches())),100)
+            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()<5:
+                break
+        while self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() < 5:
+            self.robot.sound_system.tone_freq(freq+rate*(abs(c-self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches())),100)
+            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()>5:
+                break
+        self.robot.arm_and_claw.move_arm_to_position(1000)
+        time.sleep(2)
+        self.robot.stop()
+
+    def Spin_and_grab(self,direction,speed,freq,rate):
+        if direction=='clockwise':
+            self.robot.drive_system.spin_clockwise_until_sees_object(speed,25)
+        else:
+            self.robot.drive_system.spin_counterclockwise_until_sees_object(speed,25)
+        self.Go_with_IR_and_tones(freq,rate,speed)
 
 

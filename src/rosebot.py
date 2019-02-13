@@ -38,8 +38,7 @@ class RoseBot(object):
         self.beacon_system = BeaconSystem()
         self.display_system = DisplaySystem()
 
-
-###############################################################################
+        ###############################################################################
 #    DriveSystem
 ###############################################################################
 class DriveSystem(object):
@@ -264,6 +263,7 @@ class DriveSystem(object):
         the robot should move until it is between 6.8 and 7.4 inches
         from the object.
         """
+
     # -------------------------------------------------------------------------
     # Methods for driving that use the infrared beacon sensor.
     # -------------------------------------------------------------------------
@@ -437,8 +437,8 @@ class SensorSystem(object):
         self.touch_sensor = TouchSensor(1)
         self.color_sensor = ColorSensor(3)
         self.ir_proximity_sensor = InfraredProximitySensor(4)
-        self.camera = Camera()
-        self.ir_beacon_sensor = InfraredBeaconSensor(4)
+    #   self.camera = Camera()
+       #self.ir_beacon_sensor = InfraredBeaconSensor(4)
         #self.beacon_system =
         #self.display_system =
 
