@@ -117,5 +117,9 @@ class DelegateThatReceives(object):
         else:
             self.robot.drive_system.spin_counterclockwise_until_sees_object(speed,25)
         self.Go_with_IR_and_tones(freq,rate,speed)
-
-
+    def P_of_PID_control(self,speed):
+        original=self.robot.sensor_system.color_system.get_reflected_light_intensity()
+        for k in range(5):
+            current=self.robot.sensor_system.color_system.get_reflected_light_intensity()
+            error=current-original
+            self.robot.drive_system.go(B+(error*K1),B+(error*K2))

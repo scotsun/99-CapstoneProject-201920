@@ -650,17 +650,23 @@ def handle_spin_and_grab(mqtt_sender,spin_entry, speed_entry,freq_entry,rate_ent
     speed=speed_entry.get()
     freq=freq_entry.get()
     rate=rate_entry.get()
-    mqtt_sender.send_message("Spin_and_grab",[spin_entry,speed_entry,freq,rate])
-
+    mqtt_sender.send_message("Spin_and_grab",[spin,speed,freq,rate])
+def handler_P_Of_PID_control(mqtt_sender,speed):
+    speed=speed.get()
+    mqtt_sender.send_message("P_of_PID_control",[speed])
 # Camera Handles
 def handler_camera_data_button(mqtt_sender):
     mqtt_sender.send_message("display_camera_data")
 
 
 def handler_spin_clockwise_button(mqtt_sender, speed, area):
+    speed=speed.get()
+    area=area.get()
     mqtt_sender.send_message("spin_clockwise_until_sees_object", [speed, area])
 
 
 def handler_counter_clockwise_button(mqtt_sender, speed, area):
+    speed=speed.get()
+    area=area.get()
     mqtt_sender.send_message("spin_counterclockwise_until_sees_object", [speed, area])
 
