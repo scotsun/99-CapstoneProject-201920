@@ -42,7 +42,7 @@ def main():
     personal_frame=ttk.Frame(root2, padding=10, borderwidth=5, relief="groove")
     personal_frame.grid()
 
-    teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, IR_driving_frame,ColorSensor_driving_frame=get_shared_frames(main_frame, mqtt_sender)
+    teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, IR_driving_frame,ColorSensor_driving_frame,camera_frame=get_shared_frames(main_frame, mqtt_sender)
     teleop_frame=get_personal_frame(personal_frame,mqtt_sender)
 
 
@@ -60,7 +60,7 @@ def main():
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
-    grid_frames(teleop_frame,arm_frame,control_frame,drive_system_frame,sound_system_frame,IR_driving_frame,ColorSensor_driving_frame)
+    grid_frames(teleop_frame,arm_frame,control_frame,drive_system_frame,sound_system_frame,IR_driving_frame,ColorSensor_driving_frame,camera_frame)
 
 
     # -------------------------------------------------------------------------
@@ -75,6 +75,7 @@ def get_personal_frame(personal_frame,mqtt_sender):
 
 def get_shared_frames(main_frame, mqtt_sender):
     import shared_gui
+    camera_frame=shared_gui.get_camera_frame(main_frame,mqtt_sender)
     teleop_frame = shared_gui.get_teleoperation_frame(main_frame,mqtt_sender)
     arm_frame=shared_gui.get_arm_frame(main_frame,mqtt_sender)
     control_frame=shared_gui.get_control_frame(main_frame,mqtt_sender)
@@ -82,20 +83,20 @@ def get_shared_frames(main_frame, mqtt_sender):
     sound_system_frame=shared_gui.get_sound_system_frame(main_frame,mqtt_sender)
     IR_driving_frame=shared_gui.get_IR_driving_frame(main_frame,mqtt_sender)
     ColorSensor_driving_frame=shared_gui.get_ColorSensor_driving_frame(main_frame,mqtt_sender)
-    return(teleop_frame,arm_frame,control_frame,drive_system_frame,sound_system_frame,IR_driving_frame,ColorSensor_driving_frame)
+    return(teleop_frame,arm_frame,control_frame,drive_system_frame,sound_system_frame,IR_driving_frame,ColorSensor_driving_frame,camera_frame)
     pass
 
 def grid_personal_frames(teleop_frame):
     teleop_frame.grid(row=0,column=0)
     pass
 
-def grid_frames(teleop_frame, arm_frame, control_frame,drive_system_frame,sound_system_frame,IR_driving_frame,ColorSensor_driving_frame):
-
+def grid_frames(teleop_frame, arm_frame, control_frame,drive_system_frame,sound_system_frame,IR_driving_frame,ColorSensor_driving_frame,camera_frame):
+    camera_frame.grid(row=3,column=1)
     teleop_frame.grid(row=0,column=0)
-    arm_frame.grid(row=1,column=0)
+    arm_frame.grid(row=1,column=1)
     control_frame.grid(row=2,column=0)
     drive_system_frame.grid(row=3,column=0)
-    IR_driving_frame.grid(row=3,column=1)
+    IR_driving_frame.grid(row=2,column=1)
     sound_system_frame.grid(row=4,column=0)
     ColorSensor_driving_frame.grid(row=4,column=1)
     pass

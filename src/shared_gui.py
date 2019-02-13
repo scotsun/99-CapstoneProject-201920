@@ -366,7 +366,7 @@ def get_ColorSensor_driving_frame(window, mqtt_sender):
     return frame
 
 def get_camera_frame(window, mqtt_sender):
-    frame = ttk.Frame(window, padding=10, boarderwidth=10, relief="ridge")
+    frame = ttk.Frame(window, padding=10, borderwidth=10, relief="ridge")
     frame.grid()
     frame_label = ttk.Label(frame, text="Camera Frame")
 
@@ -392,6 +392,8 @@ def get_camera_frame(window, mqtt_sender):
     display_camera_data_button["command"] = lambda: handler_camera_data_button(mqtt_sender)
     spin_clockwise_button["command"] = lambda: handler_clockwise_button(mqtt_sender, speed, area)
     spin_counter_clockwise_button['command'] = lambda: handler_counter_clockwise_button(mqtt_sender, speed, area)
+
+    return frame
 ###############################################################################
 ###############################################################################
 # The following specifies, for each Button,
