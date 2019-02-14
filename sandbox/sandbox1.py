@@ -320,12 +320,21 @@ class DelegateThatReceives(object):
     def go_straight_until_color_is_not(self, color, speed):
         self.robot.drive_system.go_straight_until_color_is_not(color, speed)
 
-    def feature_eight_person_one(self, inches, speed):
+    def m1_Go_with_IR_and_beeps(self, inches, speed, rate, acceleration):
+        import time
         self.robot.drive_system.go(speed, speed)
-        n = 1
         while True:
-            self.robot.sound_system.beep_for_n_times(1).wait()
-            n += 1
+            self.robot.sound_system.beeper.beep()
+            time.sleep(1/rate)
+            rate = rate + acceleration
             if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
                 self.robot.drive_system.stop()
                 break
+        self.robot.arm_and_claw.raise_arm()
+
+    def m1_Find_Go_with_IR_and_beeps(self, inches, speed, beep_rate, acceleration, spin_direction, spin_speed):
+        if spin_direction == 1:
+            self.robot.drive_system.spin_clockwise_until_sees_object(self, spin_speed, 20)
+        elif spin_direction == 0:
+            self.robot.drive_system.spin_clockwise_until_sees_object(self, spin_speed, 20)
+        self.m1_Go_with_IR_and_beeps(inches, speed, beep_rate, acceleration)

@@ -94,9 +94,11 @@ def grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame,
     camera_frame.grid(row=3, column=1)
 
 def m1_get_my_frame(window, mqtt_sender):
+    # frame
     frame = ttk.Frame(window, padding=10, borderwidth=10, relief="ridge")
     frame.grid()
 
+    # feature 9
     inches_label = ttk.Label(frame, text="Inches close to")
     inches_entry = ttk.Entry(frame, width=8)
     speed_label = ttk.Label(frame, text="Speed moving forward")
@@ -122,6 +124,27 @@ def m1_get_my_frame(window, mqtt_sender):
     feature_nine_person_one_button["command"] = lambda: (
         handler_feature_nine_person_one(inches_entry, speed_entry, beep_rate_entry, acceleration_entry, mqtt_sender))
 
+    # feature 10
+    spin_direction_label = ttk.Label(frame, text="Direction")
+    note_label = ttk.Label(frame, text="1 for clockwise; 0 for counter-clockwise")
+    spin_direction_entry = ttk.Entry(frame, width=8)
+    spin_speed_label = ttk.Label(frame, text="Spin Speed")
+    spin_speed_entry = ttk.Entry(frame, width=8)
+
+    feature_ten_person_one_button = ttk.Button(frame, text="Feature 10")
+
+    spin_direction_label.grid()
+    spin_direction_entry.grid()
+    note_label.grid()
+    spin_speed_label.grid()
+    spin_speed_entry.grid()
+    feature_ten_person_one_button.grid()
+
+    feature_ten_person_one_button["command"] = lambda: (
+        handler_feature_ten_person_one(inches_entry, speed_entry, beep_rate_entry, acceleration_entry,
+                                       spin_direction_entry, spin_speed_entry, mqtt_sender)
+    )
+
     return frame
 
 def handler_feature_nine_person_one(inches_entry, speed_entry, beep_rate_entry, acceleration_entry, mqtt_sender):
@@ -131,6 +154,18 @@ def handler_feature_nine_person_one(inches_entry, speed_entry, beep_rate_entry, 
     acceleration = int(acceleration_entry.get())
     mqtt_sender.send_message("m1_Go_with_IR_and_beeps", [inches, speed, beep_rate, acceleration])
 
+def handler_feature_ten_person_one(inches_entry, speed_entry, beep_rate_entry, acceleration_entry,
+                                       spin_direction_entry, spin_speed_entry, mqtt_sender):
+    inches = float(inches_entry.get())
+    speed = float(speed_entry.get())
+    beep_rate = int(beep_rate_entry.get())
+    acceleration = int(acceleration_entry.get())
+    spin_direction = int(spin_direction_entry.get())
+    spin_speed = float(spin_speed_entry.get())
+    mqtt_sender.send_message("m1_Find_Go_with_IR_and_beeps", [
+        inches, speed, beep_rate, acceleration, spin_direction, spin_speed
+    ])
+    pass
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
