@@ -715,7 +715,7 @@ def m1_get_my_frame(window, mqtt_sender):
 def handler_feature_nine_person_one(inches_entry, speed_entry, beep_rate_entry, mqtt_sender):
     inches = float(inches_entry.get())
     speed = float(speed_entry.get())
-    beep_rate = float(beep_rate_entry.get())
+    beep_rate = int(beep_rate_entry.get())
     mqtt_sender.send_message("m1_Go_with_IR_and_beeps", [inches, speed, beep_rate])
 
 
