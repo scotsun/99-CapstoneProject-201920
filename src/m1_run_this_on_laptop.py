@@ -51,7 +51,7 @@ def main():
     # Frames that are particular to my individual contributions to the project.
     # -------------------------------------------------------------------------
     # DONE: Implement and call get_my_frames(...)
-    get_my_frame(personal_root, mqtt_sender)
+    m1_get_my_frame(personal_root, mqtt_sender)
 
     # -------------------------------------------------------------------------
     # Grid the frames.
@@ -90,7 +90,7 @@ def grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame,
     IR_driving_frame.grid(row=2, column=1)
 
 
-def get_my_frame(window, mqtt_sender):
+def m1_get_my_frame(window, mqtt_sender):
     frame = ttk.Frame(window, padding=10, borderwidth=10, relief="ridge")
     frame.grid()
 
@@ -98,24 +98,31 @@ def get_my_frame(window, mqtt_sender):
     inches_entry = ttk.Entry(frame, width=8)
     speed_label = ttk.Label(frame, text="Speed moving forward")
     speed_entry = ttk.Entry(frame, width=8)
+    beep_rate_label = ttk.Label(frame, text="Beep Rate")
+    beep_rate_entry = ttk.Entry(frame, width=8)
 
-    feature_eight_person_one_button = ttk.Button(frame, text="Feature 8")
+    feature_nine_person_one_button = ttk.Button(frame, text="Feature 9")
 
     inches_label.grid()
     inches_entry.grid()
     speed_label.grid()
     speed_entry.grid()
-    feature_eight_person_one_button.grid()
+    beep_rate_label.grid()
+    beep_rate_entry.grid()
 
-    feature_eight_person_one_button["command"] = lambda: (
-        handler_feature_eight_person_one(inches_entry, speed_entry, mqtt_sender))
+    feature_nine_person_one_button.grid()
+
+    feature_nine_person_one_button["command"] = lambda: (
+        handler_feature_nine_person_one(inches_entry, speed_entry, beep_rate_entry, mqtt_sender))
+
+    return frame
 
 
-def handler_feature_eight_person_one(inches_entry, speed_entry, mqtt_sender):
-    inches = inches_entry.get()
-    speed = speed_entry.get()
-    mqtt_sender.send_message("m1_Go_with_IR_and_beeps", [inches, speed])
-
+def handler_feature_nine_person_one(inches_entry, speed_entry, beep_rate_entry, mqtt_sender):
+    inches = float(inches_entry.get())
+    speed = float(speed_entry.get())
+    beep_rate = float(beep_rate_entry.get())
+    mqtt_sender.send_message("m1_Go_with_IR_and_beeps", [inches, speed, beep_rate])
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
