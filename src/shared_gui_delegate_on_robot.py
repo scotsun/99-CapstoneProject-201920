@@ -104,8 +104,15 @@ class DelegateThatReceives(object):
             rate = rate + acceleration
             if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
                 self.robot.drive_system.stop()
-                self.robot.arm_and_claw.raise_arm()
                 break
+        self.robot.arm_and_claw.raise_arm()
+
+    def m1_Find_Go_with_IR_and_beeps(self, inches, speed, beep_rate, acceleration, spin_direction, spin_speed):
+        if spin_direction == 1:
+            self.robot.drive_system.spin_clockwise_until_sees_object(self, spin_speed, 20)
+        elif spin_direction == 0:
+            self.robot.drive_system.spin_clockwise_until_sees_object(self, spin_speed, 20)
+        self.m1_Go_with_IR_and_beeps(inches, speed, beep_rate, acceleration)
 
 
 
