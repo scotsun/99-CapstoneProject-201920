@@ -95,13 +95,13 @@ class DelegateThatReceives(object):
         self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), int(area))
 
 
-    def m1_Go_with_IR_and_beeps(self, inches, speed, wait):
+    def m1_Go_with_IR_and_beeps(self, inches, speed, rate, acceleration):
         import time
         self.robot.drive_system.go(speed, speed)
         while True:
             self.robot.sound_system.beeper.beep()
-            time.sleep(wait)
-            wait -= 0.2
+            time.sleep(1/rate)
+            rate = rate + acceleration
             if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
                 self.robot.drive_system.stop()
                 self.robot.arm_and_claw.raise_arm()

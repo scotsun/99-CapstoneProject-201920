@@ -694,6 +694,8 @@ def m1_get_my_frame(window, mqtt_sender):
     speed_entry = ttk.Entry(frame, width=8)
     beep_rate_label = ttk.Label(frame, text="Beep Rate")
     beep_rate_entry = ttk.Entry(frame, width=8)
+    acceleration_label = ttk.Label(frame, text="Acceleration")
+    acceleration_entry = ttk.Entry(frame, width=8)
 
     feature_nine_person_one_button = ttk.Button(frame, text="Feature 9")
 
@@ -703,18 +705,21 @@ def m1_get_my_frame(window, mqtt_sender):
     speed_entry.grid()
     beep_rate_label.grid()
     beep_rate_entry.grid()
+    acceleration_label.grid()
+    acceleration_entry.grid()
 
     feature_nine_person_one_button.grid()
 
     feature_nine_person_one_button["command"] = lambda: (
-        handler_feature_nine_person_one(inches_entry, speed_entry, beep_rate_entry, mqtt_sender))
+        handler_feature_nine_person_one(inches_entry, speed_entry, beep_rate_entry, acceleration_entry, mqtt_sender))
 
     return frame
 
-def handler_feature_nine_person_one(inches_entry, speed_entry, beep_rate_entry, mqtt_sender):
+def handler_feature_nine_person_one(inches_entry, speed_entry, beep_rate_entry, acceleration_entry, mqtt_sender):
     inches = float(inches_entry.get())
     speed = float(speed_entry.get())
     beep_rate = int(beep_rate_entry.get())
-    mqtt_sender.send_message("m1_Go_with_IR_and_beeps", [inches, speed, beep_rate])
+    acceleration = int(acceleration_entry.get())
+    mqtt_sender.send_message("m1_Go_with_IR_and_beeps", [inches, speed, beep_rate, acceleration])
 
 
