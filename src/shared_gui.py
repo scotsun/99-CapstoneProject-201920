@@ -665,9 +665,6 @@ def handle_m2_P_Of_PID_control(mqtt_sender,speed):
     mqtt_sender.send_message("P_of_PID_control",[speed])
 
 
-
-
-
 # Camera Handles
 def handler_camera_data_button(mqtt_sender):
     mqtt_sender.send_message("display_camera_data")
@@ -699,14 +696,14 @@ def m1_get_my_frame(window, mqtt_sender):
 
     feature_nine_person_one_button = ttk.Button(frame, text="Feature 9")
 
-    inches_label.grid()
-    inches_entry.grid()
-    speed_label.grid()
-    speed_entry.grid()
-    beep_rate_label.grid()
-    beep_rate_entry.grid()
-    acceleration_label.grid()
-    acceleration_entry.grid()
+    inches_label.grid(row=0, column=0)
+    inches_entry.grid(row=1, column=0)
+    speed_label.grid(row=0, column=2)
+    speed_entry.grid(row=1, column=2)
+    beep_rate_label.grid(row=3, column=0)
+    beep_rate_entry.grid(row=4, column=0)
+    acceleration_label.grid(row=3, column=2)
+    acceleration_entry.grid(row=4, column=2)
 
     feature_nine_person_one_button.grid()
 
