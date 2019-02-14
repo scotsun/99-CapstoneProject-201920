@@ -3,6 +3,7 @@
 
 import math
 import time
+import rosebot
 from rosebot import Motor
 from rosebot import SensorSystem
 from rosebot import Camera
@@ -318,3 +319,13 @@ class DelegateThatReceives(object):
 
     def go_straight_until_color_is_not(self, color, speed):
         self.robot.drive_system.go_straight_until_color_is_not(color, speed)
+
+    def feature_eight_person_one(self, inches, speed):
+        self.robot.drive_system.go(speed, speed)
+        n = 1
+        while True:
+            self.robot.sound_system.beep_for_n_times(1).wait()
+            n += 1
+            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
+                self.robot.drive_system.stop()
+                break
