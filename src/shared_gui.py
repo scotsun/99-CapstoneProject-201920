@@ -704,6 +704,7 @@ def m1_get_my_frame(window, mqtt_sender):
     feature_eight_person_one_button["command"] = lambda: (
         handler_feature_eight_person_one(inches_entry, speed_entry, mqtt_sender))
 
+    return frame
 
 def handler_feature_eight_person_one(inches_entry, speed_entry, mqtt_sender):
     inches = inches_entry.get()
