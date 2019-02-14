@@ -30,19 +30,16 @@ def main():
     # -------------------------------------------------------------------------
     root = tkinter.Tk()
     root.title('CSSE 120 Capstone Project 2019')
-
     # -------------------------------------------------------------------------
     # The main frame, upon which the other frames are placed.
     # -------------------------------------------------------------------------
     main_frame = ttk.Frame(root, padding=10, borderwidth=5, relief="groove")
     main_frame.grid()
-
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
     # -------------------------------------------------------------------------
     teleop_frame, arm_frame, control_frame, sound_system_frame, drive_system_frame = get_shared_frames(main_frame,
-                                                                                                       mqtt_sender)
-
+                                                                                                   mqtt_sender)
     # -------------------------------------------------------------------------
     # Frames that are particular to my individual contributions to the project.
     # -------------------------------------------------------------------------
@@ -74,6 +71,9 @@ def grid_frames(teleop_frame, arm_frame, control_frame, sound_system_frame, driv
     control_frame.grid(row=2, column=0)
     drive_system_frame.grid(row=3, column=0)
     sound_system_frame.grid(row=4, column=0)
+
+
+
 
 
 # -----------------------------------------------------------------------------
