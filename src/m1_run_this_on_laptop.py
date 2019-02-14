@@ -114,7 +114,7 @@ def get_my_frame(window, mqtt_sender):
 def handler_feature_eight_person_one(inches_entry, speed_entry, mqtt_sender):
     inches = inches_entry.get()
     speed = speed_entry.get()
-    mqtt_sender.send_message("feature_eight_person_one", [inches, speed])
+    mqtt_sender.send_message("m1_Go_with_IR_and_beeps", [inches, speed])
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.

@@ -684,3 +684,30 @@ def handler_spin_counterclockwise_button(speed_entry, area_entry, mqtt_sender):
     area = int(area_entry.get())
     mqtt_sender.send_message("spin_counterclockwise_until_sees_object", [speed, area])
 
+def m1_get_my_frame(window, mqtt_sender):
+    frame = ttk.Frame(window, padding=10, borderwidth=10, relief="ridge")
+    frame.grid()
+
+    inches_label = ttk.Label(frame, text="Inches close to")
+    inches_entry = ttk.Entry(frame, width=8)
+    speed_label = ttk.Label(frame, text="Speed moving forward")
+    speed_entry = ttk.Entry(frame, width=8)
+
+    feature_eight_person_one_button = ttk.Button(frame, text="Feature 8")
+
+    inches_label.grid()
+    inches_entry.grid()
+    speed_label.grid()
+    speed_entry.grid()
+    feature_eight_person_one_button.grid()
+
+    feature_eight_person_one_button["command"] = lambda: (
+        handler_feature_eight_person_one(inches_entry, speed_entry, mqtt_sender))
+
+
+def handler_feature_eight_person_one(inches_entry, speed_entry, mqtt_sender):
+    inches = inches_entry.get()
+    speed = speed_entry.get()
+    mqtt_sender.send_message("m1_Go_with_IR_and_beeps", [inches, speed])
+
+

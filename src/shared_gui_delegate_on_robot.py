@@ -103,6 +103,7 @@ class DelegateThatReceives(object):
             n += 1
             if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
                 self.robot.drive_system.stop()
+                self.robot.arm_and_claw.raise_arm()
                 break
 
 
