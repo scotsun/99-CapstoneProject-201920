@@ -653,7 +653,8 @@ def handle_m2_go_with_ir_and_tones(mqtt_sender,freq_entry, rate_entry,speed_entr
     freq=freq_entry.get()
     rate=rate_entry.get()
     speed=speed_entry.get()
-    mqtt_sender.send_message("m2_Go_with_IR_and_tones",[freq,rate,speed])
+    mqtt_sender.send_message("m2_Go_with_IR_and_tones",[speed])
+    mqtt_sender.send_message("m2_Go_with_IR_and_tones_with_tones",[freq,rate])
 def handle_m2_spin_and_grab(mqtt_sender,spin_entry, speed_entry,freq_entry,rate_entry):
     spin=spin_entry.get()
     speed=speed_entry.get()
