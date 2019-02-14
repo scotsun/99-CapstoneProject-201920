@@ -96,9 +96,12 @@ class DelegateThatReceives(object):
 
 
     def m1_Go_with_IR_and_beeps(self, inches, speed, rate):
+        import time
         self.robot.drive_system.go(speed, speed)
         while True:
-            self.robot.sound_system.beep_for_n_times(rate)
+            for i in range(rate):
+                self.robot.sound_system.beeper.beep()
+                time.sleep(0.05)
             rate += 1
             if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
                 self.robot.drive_system.stop()
