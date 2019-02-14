@@ -86,7 +86,7 @@ class DelegateThatReceives(object):
         self.robot.drive_system.go_straight_until_color_is_not(color, speed)
 
     def display_camera_data(self):
-        self.robot.drive_system.display_camera_date()
+        self.robot.drive_system.display_camera_data()
 
     def spin_clockwise_until_sees_object(self, speed, area):
         self.robot.drive_system.spin_clockwise_until_sees_object(int(speed), int(area))
@@ -157,18 +157,44 @@ class DelegateThatReceives(object):
             self.robot.drive_system.go(B+(error*K1),B+(error*K2))
 
     def run_leds(self, rate_of_increase):
-        for k in range(rate_of_increase):
-            self.robot.ledsystem.left_led.turn_on()
-            self.robot.sleep(0.5)
-            self.robot.ledsystem.left_led.turn_off()
-            self.robot.sleep(0.5)
-            self.robot.ledsystem.right_led.turn_on()
-            self.robot.sleep(0.5)
-            self.robot.ledsystem.right_led.turn_off()
-            self.robot.sleep(0.5)
-            self.robot.ledsystem.left_led.turn_on()
-            self.robot.ledsystem.right_led.turn_on()
-            self.robot.sleep(0.5)
-            self.robot.ledsystem.left_led.turn_off()
-            self.robot.ledsystem.right_led.turn_off()
-            self.robot.sleep(1.5)
+        import time
+        distance=11
+        self.robot.arm_and_claw.calibrate_arm()
+        c=self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+        if c<distance:
+            self.stop()
+        else:
+            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()<distance:
+                self.stop()
+            else:
+                self.robot.drive_system.go(25,25)
+        k=1
+        time.sleep(0.1)
+        diff=0.01
+        while True:
+            t=self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+            t1=self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+            self.robot.led_system.left_led.turn_on()
+            time.sleep(0.05)
+            self.robot.led_system.left_led.turn_off()
+            time.sleep(0.05)
+            self.robot.led_system.right_led.turn_on()
+            time.sleep(0.05)
+            self.robot.led_system.right_led.turn_off()
+            time.sleep(0.05)
+            self.robot.led_system.left_led.turn_on()
+            self.robot.led_system.right_led.turn_on()
+            time.sleep(0.05)
+            self.robot.led_system.left_led.turn_off()
+            self.robot.led_system.right_led.turn_off()
+            time.sleep(0.05)
+            print(t1)
+            if abs(t-t1)<diff:
+                if t1<distance:
+                    self.robot.drive_system.stop()
+                    break
+
+        self.robot.arm_and_claw.raise_arm()
+
+
+

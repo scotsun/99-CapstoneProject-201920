@@ -44,6 +44,7 @@ def grid_frames(led_frame):
 
 
 def handle_run_leds(mqtt_sender, rate_of_increase):
+    rate_of_increase=rate_of_increase.get()
     mqtt_sender.send_message("run_leds", [rate_of_increase])
 
 

@@ -333,7 +333,7 @@ class DriveSystem(object):
             current_width = self.sensor_system.camera.get_biggest_blob().width
             current_area = current_height * current_width
 
-            if current_area != area:
+            if current_area < area:
                 self.go(speed, -speed)
                 time.sleep(0.2)
                 self.stop()
@@ -352,7 +352,7 @@ class DriveSystem(object):
             current_width = self.sensor_system.camera.get_biggest_blob().width
             current_area = current_height * current_width
 
-            if current_area != area:
+            if current_area < area:
                 self.go(-speed, speed)
                 time.sleep(0.2)
                 self.stop()
@@ -464,6 +464,7 @@ class SensorSystem(object):
         self.ir_proximity_sensor = InfraredProximitySensor(4)
         self.camera = Camera()
         #self.ir_beacon_sensor = InfraredBeaconSensor(4)
+        #self.beacon_system =
         #self.beacon_system =
         #self.display_system =
 
