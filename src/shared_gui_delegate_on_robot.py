@@ -77,7 +77,7 @@ class DelegateThatReceives(object):
         self.robot.drive_system.go_straight_until_intensity_is_less_than(intensity, speed)
 
     def go_straight_until_intensity_is_greater_than(self, intensity, speed):
-        self.robot.drive_system.go_straight_until_intensity_is_great_than(intensity, speed)
+        self.robot.drive_system.go_straight_until_intensity_is_greater_than(intensity, speed)
 
     def go_straight_until_color_is(self, color, speed):
         self.robot.drive_system.go_straight_until_color_is(color, speed)

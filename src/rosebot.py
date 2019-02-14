@@ -104,8 +104,9 @@ class DriveSystem(object):
         for the given number of inches, using the approximate
         conversion factor of 10.0 inches per second at 100 (full) speed.
         """
-
-        seconds_per_inch_at_100 = 10.0  # 1 sec = 10 inches at 100 speed
+        speed=int(speed)
+        inches=float(inches)
+        seconds_per_inch_at_100 = 10  # 1 sec = 10 inches at 100 speed
         seconds = abs(inches * seconds_per_inch_at_100 / speed)
 
         self.go_straight_for_seconds(seconds, speed)
@@ -141,6 +142,7 @@ class DriveSystem(object):
         """
         self.go(speed, speed)
         while True:
+            print(self.sensor_system.color_sensor.get_reflected_light_intensity())
             current_intensity = self.sensor_system.color_sensor.get_reflected_light_intensity()
             if current_intensity < intensity:
                 self.stop()
@@ -153,6 +155,7 @@ class DriveSystem(object):
         """
         self.go(speed, speed)
         while True:
+            print(self.sensor_system.color_sensor.get_reflected_light_intensity())
             current_intensity = self.sensor_system.color_sensor.get_reflected_light_intensity()
             if current_intensity > intensity:
                 self.stop()
@@ -208,16 +211,22 @@ class DriveSystem(object):
     # Methods for driving that use the infrared proximity sensor.
     # -------------------------------------------------------------------------
     def go_forward_until_distance_is_less_than(self, inches, speed):
-        self.go(speed,speed)
+        inches=int(inches)
+        speed=int(speed)
+        if self.sensor_system.ir_proximity_sensor.get_distance_in_inches()<inches:
+            self.stop()
+        else:
+            if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() < inches:
+                self.stop()
+            else:
+                self.go(speed, speed)
         k=1
         time.sleep(0.1)
-        inches=int(inches)
         diff=0.1
         while True:
             k = k + 1
             t=self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
             t1=self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
-            print(t)
             if abs(t-t1)<diff:
                 if t1<inches:
                     self.stop()
@@ -231,17 +240,22 @@ class DriveSystem(object):
         """
 
     def go_backward_until_distance_is_greater_than(self, inches, speed):
-        speed=int(speed)
-        self.go(-speed,-speed)
+        speed = int(speed)
+        inches=int(inches)
+        if self.sensor_system.ir_proximity_sensor.get_distance_in_inches()>inches:
+            self.stop()
+        else:
+            if self.sensor_system.ir_proximity_sensor.get_distance_in_inches()>inches:
+                self.stop()
+            else:
+                self.go(-speed,-speed)
         k=1
         time.sleep(0.1)
-        inches=int(inches)
         diff=0.1
         while True:
             k = k + 1
             t=self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
             t1=self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
-            print(t)
             if abs(t-t1)<diff:
                 if t1>inches:
                     self.stop()
@@ -257,10 +271,13 @@ class DriveSystem(object):
     def go_until_distance_is_within(self, delta, inches, speed):
         inches=int(inches)
         speed=int(speed)
-        while self.sensor_system.ir_proximity_sensor.get_distance_in_inches()>inches:
-            self.go_straight_for_inches_using_time(delta,abs(speed))
-        while self.sensor_system.ir_proximity_sensor.get_distance_in_inches()<inches:
-            self.go_straight_for_inches_using_time(delta,-abs(speed))
+        delta=float(delta)
+        if self.sensor_system.ir_proximity_sensor.get_distance_in_inches()>inches+delta:
+            while self.sensor_system.ir_proximity_sensor.get_distance_in_inches()>inches+delta:
+                self.go(speed,speed)
+        elif self.sensor_system.ir_proximity_sensor.get_distance_in_inches()<inches-delta:
+            while self.sensor_system.ir_proximity_sensor.get_distance_in_inches()<inches+delta:
+                self.go(-speed,-speed)
         self.stop()
 
         """
@@ -446,7 +463,7 @@ class SensorSystem(object):
         self.touch_sensor = TouchSensor(1)
         self.color_sensor = ColorSensor(3)
         self.ir_proximity_sensor = InfraredProximitySensor(4)
-        #self.camera = Camera()
+        self.camera = Camera()
         #self.ir_beacon_sensor = InfraredBeaconSensor(4)
         #self.beacon_system =
         #self.display_system =
