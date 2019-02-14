@@ -111,19 +111,36 @@ class DelegateThatReceives(object):
 
 
 
-    def m2_Go_with_IR_and_tones(self,speed):
+    def m2_Go_with_IR_and_tones(self,freq,speed,rate):
         import time
+        freq=int(freq)
+        speed=int(speed)
+        rate=int(rate)
+        distance=5
         self.robot.arm_and_claw.lower_arm()
-        self.robot.drive_system.go_until_distance_is_within(0.1,5,speed)
+        c=self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+        if c<distance:
+            self.stop()
+        else:
+            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()<distance:
+                self.stop()
+            else:
+                self.robot.drive_system.go(speed,speed)
+        k=1
+        time.sleep(0.1)
+        diff=0.1
+        while True:
+            t=self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+            t1=self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+            self.robot.sound_system.tone_freq(freq+rate*(c-t1),10)
+            if abs(t-t1)<diff:
+                if t1<distance:
+                    self.stop()
+                    break
         self.robot.arm_and_claw.move_arm_to_position(2000)
         self.robot.arm_and_claw.move_arm_to_position(5000)
         time.sleep(2)
-    def m2_Go_with_IR_and_tones_with_tones(self,freq,rate):
-        import time
-        for k in range(5):
-            c=self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
-            self.robot.sound_system.tone_freq(freq+rate*(c-self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()),1000)
-            time.sleep(1)
+
 
 
 

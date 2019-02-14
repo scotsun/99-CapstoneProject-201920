@@ -249,11 +249,9 @@ class DriveSystem(object):
                 self.stop()
             else:
                 self.go(-speed,-speed)
-        k=1
         time.sleep(0.1)
         diff=0.1
         while True:
-            k = k + 1
             t=self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
             t1=self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
             if abs(t-t1)<diff:
@@ -311,6 +309,7 @@ class DriveSystem(object):
         given number of inches from the Beacon.
         Assumes that the Beacon is turned on and placed straight ahead.
         """
+
 
 
     # -------------------------------------------------------------------------

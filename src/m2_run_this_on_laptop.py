@@ -73,7 +73,7 @@ def get_personal_frame(personal_frame,mqtt_sender):
     teleoperations_frame=shared_gui.get_teleoperation_frame(personal_frame,mqtt_sender)
     arm_and_claw_frame=shared_gui.get_arm_frame(personal_frame,mqtt_sender)
     control_frame=shared_gui.get_control_frame(personal_frame,mqtt_sender)
-    personal_frame2=shared_gui.get_personal_frame_2(personal_frame,mqtt_sender)
+    personal_frame2=shared_gui.m1_get_my_frame(personal_frame,mqtt_sender)
     IR_driving_frame=shared_gui.get_IR_driving_frame(personal_frame,mqtt_sender)
     return(control_frame,personal_frame2,arm_and_claw_frame,IR_driving_frame,teleoperations_frame)
 
