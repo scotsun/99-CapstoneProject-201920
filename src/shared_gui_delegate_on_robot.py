@@ -203,5 +203,44 @@ class DelegateThatReceives(object):
 
         self.robot.arm_and_claw.raise_arm()
 
+    def run_leds_with_camera(self):
+        import time
+        distance = 11
+        self.robot.arm_and_claw.calibrate_arm()
+        c = self.robot.drive_system.spin_counterclockwise_until_sees_object()
+        if c < distance:
+            self.stop()
+        else:
+            if self.robot.drive_system.spin_counterclockwise_until_sees_object() < distance:
+                self.stop()
+            else:
+                self.robot.drive_system.go(25, 25)
+        k = 1
+        time.sleep(0.1)
+        diff = 0.01
+        while True:
+            t = self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+            t1 = self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+            self.robot.led_system.left_led.turn_on()
+            time.sleep(0.05)
+            self.robot.led_system.left_led.turn_off()
+            time.sleep(0.05)
+            self.robot.led_system.right_led.turn_on()
+            time.sleep(0.05)
+            self.robot.led_system.right_led.turn_off()
+            time.sleep(0.05)
+            self.robot.led_system.left_led.turn_on()
+            self.robot.led_system.right_led.turn_on()
+            time.sleep(0.05)
+            self.robot.led_system.left_led.turn_off()
+            self.robot.led_system.right_led.turn_off()
+            time.sleep(0.05)
+            print(t1)
+            if abs(t - t1) < diff:
+                if t1 < distance:
+                    self.robot.drive_system.stop()
+                    break
+
+        self.robot.arm_and_claw.raise_arm()
 
 

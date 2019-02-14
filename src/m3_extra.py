@@ -13,7 +13,7 @@ def main():
 
     personal_frame = ttk.Frame(root2, padding=10, borderwidth=5, relief="groove")
     personal_frame.grid()
-    grid_frames(get_led_frame(personal_frame, mqtt_sender))
+    grid_frames(get_led_frame(personal_frame, mqtt_sender), get_leds_with_camera_frame(personal_frame, mqtt_sender))
     root2.mainloop()
 
 
@@ -39,8 +39,23 @@ def get_led_frame(personal_frame, mqtt_sender):
     return frame
 
 
-def grid_frames(led_frame):
+def get_leds_with_camera_frame(personal_frame, mqtt_sender):
+    frame = ttk.Frame(personal_frame, padding=10, borderwidth=10, relief="ridge")
+    frame.grid()
+    frame_title = ttk.Label(frame, text="LED Camera Frame")
+    run_button = ttk.Button(frame, text="Run Camera with LEDS")
+
+    frame_title.grid(row=0, column=1)
+    run_button.grid(row=1, column=2)
+
+    run_button["command"] = lambda: handle_run_leds_with_camera(mqtt_sender)
+
+    return frame
+
+
+def grid_frames(led_frame, led_camera_frame):
     led_frame.grid(row=0, column=0)
+    led_camera_frame.grid(row=1, column=1)
 
 
 def handle_run_leds(mqtt_sender, rate_of_increase):
@@ -48,4 +63,6 @@ def handle_run_leds(mqtt_sender, rate_of_increase):
     mqtt_sender.send_message("run_leds", [rate_of_increase])
 
 
+def handle_run_leds_with_camera(mqtt_sender):
+    mqtt_sender.send_message("run_leds_with_camera")
 main()
