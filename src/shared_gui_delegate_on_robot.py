@@ -99,7 +99,7 @@ class DelegateThatReceives(object):
         self.robot.drive_system.go(speed, speed)
         n = 1
         while True:
-            self.robot.sound_system.beep_for_n_times(1).wait()
+            self.robot.sound_system.beep_for_n_times(n)
             n += 1
             if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
                 self.robot.drive_system.stop()
