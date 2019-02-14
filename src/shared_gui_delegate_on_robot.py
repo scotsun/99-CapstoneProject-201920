@@ -101,7 +101,7 @@ class DelegateThatReceives(object):
         while True:
             for i in range(rate):
                 self.robot.sound_system.beeper.beep()
-                time.sleep(0.1)
+                time.sleep(0.5)
             rate += 1
             if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
                 self.robot.drive_system.stop()
