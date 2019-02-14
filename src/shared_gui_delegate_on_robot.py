@@ -155,3 +155,20 @@ class DelegateThatReceives(object):
             current=self.robot.sensor_system.color_system.get_reflected_light_intensity()
             error=current-original
             self.robot.drive_system.go(B+(error*K1),B+(error*K2))
+
+    def run_leds(self, rate_of_increase):
+        for k in range(rate_of_increase):
+            self.robot.ledsystem.left_led.turn_on()
+            self.robot.sleep(0.5)
+            self.robot.ledsystem.left_led.turn_off()
+            self.robot.sleep(0.5)
+            self.robot.ledsystem.right_led.turn_on()
+            self.robot.sleep(0.5)
+            self.robot.ledsystem.right_led.turn_off()
+            self.robot.sleep(0.5)
+            self.robot.ledsystem.left_led.turn_on()
+            self.robot.ledsystem.right_led.turn_on()
+            self.robot.sleep(0.5)
+            self.robot.ledsystem.left_led.turn_off()
+            self.robot.ledsystem.right_led.turn_off()
+            self.robot.sleep(1.5)
