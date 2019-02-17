@@ -3,7 +3,7 @@ import rosebot
 import time
 import math
 
-def m1_sprint3_forward(robot, left_speed, right_speed):
+def sprint3_forward(robot, left_speed, right_speed):
     '''
     :type robot rosebot.RoseBot
     '''
@@ -22,7 +22,7 @@ def m1_sprint3_forward(robot, left_speed, right_speed):
                 break
 
 
-def m1_sprint3_clear_path(robot):
+def sprint3_clear_path(robot):
     '''
     :type robot rosebot.RoseBot
     '''
@@ -37,7 +37,7 @@ def m1_sprint3_clear_path(robot):
             break
 
 
-def m1_sprint3_detect(robot, mode):
+def sprint3_detect(robot, mode):
     '''
     :type robot rosebot.RoseBot
     '''

@@ -249,5 +249,10 @@ class DelegateThatReceives(object):
 # -----------------------------------------------------------------------------
 # Scott Sun sprint 3
 # -----------------------------------------------------------------------------
-    def m1_sprint3_forward(self, left_speed, right_speed):
-        m1.m1_sprint3_forward(self.robot, left_speed, right_speed)
+    def m1_sprint3_forward(self, left_speed, right_speed, mode):
+        m1.sprint3_detect(self.robot, mode)
+        m1.sprint3_forward(self.robot, left_speed, right_speed)
+
+
+    def m1_sprint3_clear_path(self):
+        m1.sprint3_clear_path(self.robot)
