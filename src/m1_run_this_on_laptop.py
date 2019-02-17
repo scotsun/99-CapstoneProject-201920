@@ -199,13 +199,10 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     turn_right_button = ttk.Button(frame_1, text="TurnRight")
     back_button = ttk.Button(frame_1, text="Back")
 
-    oil_radio = ttk.Radiobutton(frame_2, text="Oil", value="Oil")
-    oil_location_entry = ttk.Entry(frame_2, width=10)
-    oil_location_entry.insert(0, "N/A")
+    remove_object_button = ttk.Button(frame_2, text="Remove Object")
 
+    oil_radio = ttk.Radiobutton(frame_2, text="Oil", value="Oil")
     metal_radio = ttk.Radiobutton(frame_2, text="Metal", value="Metal")
-    metal_location_entry = ttk.Entry(frame_2, width=10)
-    metal_location_entry.insert(0, "N/A")
 
     exit_button = ttk.Button(window, text="Exit")
 
@@ -220,17 +217,17 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     back_button.grid(row=4, column=1)
 
     oil_radio.grid(row=2, column=6)
-    oil_location_entry.grid(row=2, column=7)
     metal_radio.grid(row=3, column=6)
-    metal_location_entry.grid(row=3, column=7)
-    exit_button.grid(row=4, column=7)
+    remove_object_button.grid(row=4, column=6)
+
+    exit_button.grid(row=10, column=10)
 
     # features on radio-buttons
     radio_observer = tkinter.StringVar()
     oil_radio["variable"] = radio_observer
-    oil_radio["command"] = lambda: radiobutton_changed(radio_observer)
+    oil_radio["command"] = lambda: radiobutton_changed(radio_observer, mqtt_sender)
     metal_radio["variable"] = radio_observer
-    metal_radio["command"] = lambda: radiobutton_changed(radio_observer)
+    metal_radio["command"] = lambda: radiobutton_changed(radio_observer, mqtt_sender)
 
     # buttons' commands
     forward_button["command"] = lambda: handler_forward(left_speed_entry=left_speed_entry,
@@ -245,42 +242,52 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     turn_right_button["command"] = lambda: handler_turn_right(left_speed_entry=left_speed_entry,
                                                               right_speed_entry=right_speed_entry,
                                                               mqtt_sender=mqtt_sender)
+    remove_object_button["command"] = lambda: handler_remove_object(mqtt_sender)
     exit_button["command"] = lambda: exit()
 
     # bind the laptop's keyboard to controlling panel (gui)
-    window.bind_all('<KeyRelease>', lambda event: handler_stop(event))
+    window.bind_all('<KeyRelease>', lambda event: handler_stop(event, mqtt_sender))
     window.bind_all('<Key-w>', lambda event: handler_forward(event,
                                                              left_speed_entry=left_speed_entry,
-                                                             right_speed_entry=right_speed_entry), mqtt_sender=mqtt_sender)
+                                                             right_speed_entry=right_speed_entry, mqtt_sender=mqtt_sender))
     window.bind_all('<Key-s>', lambda event: handler_back(event,
                                                           left_speed_entry=left_speed_entry,
-                                                          right_speed_entry=right_speed_entry), mqtt_sender=mqtt_sender)
+                                                          right_speed_entry=right_speed_entry, mqtt_sender=mqtt_sender))
     window.bind_all('<Key-a>', lambda event: handler_turn_left(event,
                                                                left_speed_entry=left_speed_entry,
-                                                               right_speed_entry=right_speed_entry), mqtt_sender=mqtt_sender)
+                                                               right_speed_entry=right_speed_entry, mqtt_sender=mqtt_sender))
 
     window.bind_all('<Key-d>', lambda event: handler_turn_right(event,
                                                                 left_speed_entry=left_speed_entry,
-                                                                right_speed_entry=right_speed_entry), mqtt_sender=mqtt_sender)
-
+                                                                right_speed_entry=right_speed_entry, mqtt_sender=mqtt_sender))
+    window.bind_all('<Key-space>', lambda event: handler_remove_object(event, mqtt_sender=mqtt_sender))
     return frame_1, frame_2
 
-def radiobutton_changed(radio_observer):
+def radiobutton_changed(radio_observer,mqtt_sender):
     mode = radio_observer.get()
-    print('The detector is turned to', mode, 'detecting mode.')  #TODO: black = oil; white = metal
-    pass
+    print('The detector is turned to', mode, 'detecting mode.')
+    mqtt_sender.send_message("m1_sprint3_detect", [mode])
 
-def handler_stop(event):
-    if event is not None:
+def handler_stop(event, mqtt_sender):
+    if event.keysym is "a":
         print("stop")
-    pass
+        mqtt_sender.send_message("stop")
+    elif event.keysym is "w":
+        print("stop")
+        mqtt_sender.send_message("stop")
+    elif event.keysym is "s":
+        print("stop")
+        mqtt_sender.send_message("stop")
+    elif event.keysym is "d":
+        print("stop")
+        mqtt_sender.send_message("stop")
 
 
 def handler_forward(event=None, left_speed_entry=None, right_speed_entry=None, mqtt_sender=None):
     left_speed = int(left_speed_entry.get())
     right_speed = int(right_speed_entry.get())
     if event is None:
-        print('You may press <Key-k> to implement the function')       #TODO: mqtt_sender sending messages delegate
+        print('You may press <Key-k> to implement the function')
     else:
         mqtt_sender.send_message("m1_sprint3_forward", [left_speed, right_speed])
         print('Go forward!')
@@ -318,6 +325,13 @@ def handler_turn_right(event=None, left_speed_entry=None, right_speed_entry=None
         mqtt_sender.send_message('right', [left_speed, right_speed])
         print('Turn right!')
         print('left', left_speed, 'right', right_speed)
+
+def handler_remove_object(event=None, mqtt_sender=None):
+    if event is None:
+        print("You may press <Key-space> to implement the function")
+    else:
+        mqtt_sender.send_message('m1_sprint3_clear_path')
+        print("Removing")
 
 
 main()
