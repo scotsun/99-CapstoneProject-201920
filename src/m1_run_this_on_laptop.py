@@ -179,13 +179,12 @@ def handler_feature_ten_person_one(inches_entry, speed_entry, beep_rate_entry, a
     pass
 
 # -----------------------------------------------------------------------------
-# Sprint 3 personal feature
+# Sprint 3 personal gui feature
 # -----------------------------------------------------------------------------
 
 def m1_sprint3_get_my_frame(window, mqtt_sender):
     frame = ttk.Frame(window, padding=10, borderwidth=10, relief="ridge")
-
-    control_panel_label = ttk.Label(frame, text="Detector Controlling Panel")
+    frame.grid()
 
     left_speed_label = ttk.Label(frame, text="left")
     left_speed_entry = ttk.Entry(frame, width=10)
@@ -205,9 +204,21 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
 
     metal_label = ttk.Label(frame, text="Metal")
     metal_location_entry = ttk.Entry(frame, width=10)
+    metal_location_entry.insert(0, "N/A")
+
+    exit_button = ttk.Button(frame, text="Exit")
+
+    # features on radiobuttons
+
+
+    # buttons' commands
+    forward_button["command"] = lambda: handler_forward(left_speed_entry, right_speed_entry, mqtt_sender)
+    back_button["command"] = lambda: handler_back(left_speed_entry, right_speed_entry, mqtt_sender)
+    turn_left_button["command"] = lambda: handler_turn_left(left_speed_entry, right_speed_entry, mqtt_sender)
+    turn_right_button["command"] = lambda: handler_turn_right(left_speed_entry, right_speed_entry, mqtt_sender)
 
     # grid the GUI
-    control_panel_label.grid(row=0, column=2)
+
     left_speed_label.grid(row=1, column=0)
     right_speed_label.grid(row=1, column=2)
     left_speed_entry.grid(row=2, column=0)
@@ -216,14 +227,25 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     forward_button.grid(row=3, column=1)
     turn_right_button.grid(row=3, column=2)
     back_button.grid(row=4, column=1)
-    locations_label.grid(row=1, column=3)
-    oil_label.grid(row=2, column=3)
-    oil_location_entry.grid(row=2, column=4)
-    metal_label.grid(row=3, column=3)
-    metal_location_entry.grid(row=3, column=4)
-
+    locations_label.grid(row=1, column=6)
+    oil_label.grid(row=2, column=6)
+    oil_location_entry.grid(row=2, column=7)
+    metal_label.grid(row=3, column=6)
+    metal_location_entry.grid(row=3, column=7)
+    exit_button.grid(row=4, column=7)
     return frame
 
+def handler_forward(left_speed_entry, right_speed_entry, mqtt_sender):
+    pass
+
+def handler_back(left_speed_entry, right_speed_entry, mqtt_sender):
+    pass
+
+def handler_turn_left(left_speed_entry, right_speed_entry, mqtt_sender):
+    pass
+
+def handler_turn_right(left_speed_entry, right_speed_entry, mqtt_sender):
+    pass
 
 
 # -----------------------------------------------------------------------------
