@@ -44,7 +44,7 @@ class DelegateThatReceives(object):
         self.is_time_to_stop = True
 
     def exit(self):
-        print('exit')
+        exit()
 
 
     def go_straight_using_seconds(self, seconds, speed):

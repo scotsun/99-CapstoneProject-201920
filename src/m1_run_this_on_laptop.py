@@ -183,42 +183,33 @@ def handler_feature_ten_person_one(inches_entry, speed_entry, beep_rate_entry, a
 # -----------------------------------------------------------------------------
 
 def m1_sprint3_get_my_frame(window, mqtt_sender):
-    frame = ttk.Frame(window, padding=10, borderwidth=10, relief="ridge")
-    frame.grid()
+    frame_1 = ttk.Frame(window, padding=10, borderwidth=20, relief="sunken")
+    frame_1.grid()
 
-    left_speed_label = ttk.Label(frame, text="left")
-    left_speed_entry = ttk.Entry(frame, width=10)
-    right_speed_label = ttk.Label(frame, text="Right")
-    right_speed_entry = ttk.Entry(frame, width=10)
+    frame_2 = ttk.Frame(window, padding=10, borderwidth=20, relief="sunken")
+    frame_2.grid()
 
-    turn_left_button = ttk.Button(frame, text="TurnLeft")
-    forward_button = ttk.Button(frame, text="Forward")
-    turn_right_button = ttk.Button(frame, text="TurnRight")
-    back_button = ttk.Button(frame, text="Back")
+    left_speed_label = ttk.Label(frame_1, text="left")
+    left_speed_entry = ttk.Entry(frame_1, width=10)
+    right_speed_label = ttk.Label(frame_1, text="Right")
+    right_speed_entry = ttk.Entry(frame_1, width=10)
 
-    locations_label = ttk.Label(frame, text="Locations:")
+    turn_left_button = ttk.Button(frame_1, text="TurnLeft")
+    forward_button = ttk.Button(frame_1, text="Forward")
+    turn_right_button = ttk.Button(frame_1, text="TurnRight")
+    back_button = ttk.Button(frame_1, text="Back")
 
-    oil_label = ttk.Label(frame, text="Oil")
-    oil_location_entry = ttk.Entry(frame, width=10)
+    oil_radio = ttk.Radiobutton(frame_2, text="Oil", value="Oil")
+    oil_location_entry = ttk.Entry(frame_2, width=10)
     oil_location_entry.insert(0, "N/A")
 
-    metal_label = ttk.Label(frame, text="Metal")
-    metal_location_entry = ttk.Entry(frame, width=10)
+    metal_radio = ttk.Radiobutton(frame_2, text="Metal", value="Metal")
+    metal_location_entry = ttk.Entry(frame_2, width=10)
     metal_location_entry.insert(0, "N/A")
 
-    exit_button = ttk.Button(frame, text="Exit")
-
-    # features on radiobuttons
-
-
-    # buttons' commands
-    forward_button["command"] = lambda: handler_forward(left_speed_entry, right_speed_entry, mqtt_sender)
-    back_button["command"] = lambda: handler_back(left_speed_entry, right_speed_entry, mqtt_sender)
-    turn_left_button["command"] = lambda: handler_turn_left(left_speed_entry, right_speed_entry, mqtt_sender)
-    turn_right_button["command"] = lambda: handler_turn_right(left_speed_entry, right_speed_entry, mqtt_sender)
+    exit_button = ttk.Button(window, text="Exit")
 
     # grid the GUI
-
     left_speed_label.grid(row=1, column=0)
     right_speed_label.grid(row=1, column=2)
     left_speed_entry.grid(row=2, column=0)
@@ -227,26 +218,109 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     forward_button.grid(row=3, column=1)
     turn_right_button.grid(row=3, column=2)
     back_button.grid(row=4, column=1)
-    locations_label.grid(row=1, column=6)
-    oil_label.grid(row=2, column=6)
+
+    oil_radio.grid(row=2, column=6)
     oil_location_entry.grid(row=2, column=7)
-    metal_label.grid(row=3, column=6)
+    metal_radio.grid(row=3, column=6)
     metal_location_entry.grid(row=3, column=7)
     exit_button.grid(row=4, column=7)
-    return frame
 
-def handler_forward(left_speed_entry, right_speed_entry, mqtt_sender):
+    # features on radio-buttons
+    radio_observer = tkinter.StringVar()
+    oil_radio["variable"] = radio_observer
+    oil_radio["command"] = lambda: radiobutton_changed(radio_observer)
+    metal_radio["variable"] = radio_observer
+    metal_radio["command"] = lambda: radiobutton_changed(radio_observer)
+
+    # buttons' commands
+    forward_button["command"] = lambda: handler_forward(left_speed_entry=left_speed_entry,
+                                                        right_speed_entry=right_speed_entry,
+                                                        mqtt_sender=mqtt_sender)
+    back_button["command"] = lambda: handler_back(left_speed_entry=left_speed_entry,
+                                                  right_speed_entry=right_speed_entry,
+                                                  mqtt_sender=mqtt_sender)
+    turn_left_button["command"] = lambda: handler_turn_left(left_speed_entry=left_speed_entry,
+                                                            right_speed_entry=right_speed_entry,
+                                                            mqtt_sender=mqtt_sender)
+    turn_right_button["command"] = lambda: handler_turn_right(left_speed_entry=left_speed_entry,
+                                                              right_speed_entry=right_speed_entry,
+                                                              mqtt_sender=mqtt_sender)
+    exit_button["command"] = lambda: exit()
+
+    # bind the laptop's keyboard to controlling panel (gui)
+    window.bind_all('<KeyRelease>', lambda event: handler_stop(event))
+    window.bind_all('<Key-w>', lambda event: handler_forward(event,
+                                                             left_speed_entry=left_speed_entry,
+                                                             right_speed_entry=right_speed_entry), mqtt_sender=mqtt_sender)
+    window.bind_all('<Key-s>', lambda event: handler_back(event,
+                                                          left_speed_entry=left_speed_entry,
+                                                          right_speed_entry=right_speed_entry), mqtt_sender=mqtt_sender)
+    window.bind_all('<Key-a>', lambda event: handler_turn_left(event,
+                                                               left_speed_entry=left_speed_entry,
+                                                               right_speed_entry=right_speed_entry), mqtt_sender=mqtt_sender)
+
+    window.bind_all('<Key-d>', lambda event: handler_turn_right(event,
+                                                                left_speed_entry=left_speed_entry,
+                                                                right_speed_entry=right_speed_entry), mqtt_sender=mqtt_sender)
+
+    return frame_1, frame_2
+
+def radiobutton_changed(radio_observer):
+    mode = radio_observer.get()
+    print('The detector is turned to', mode, 'detecting mode.')  #TODO: black = oil; white = metal
     pass
 
-def handler_back(left_speed_entry, right_speed_entry, mqtt_sender):
+def handler_stop(event):
+    if event is not None:
+        print("stop")
     pass
 
-def handler_turn_left(left_speed_entry, right_speed_entry, mqtt_sender):
-    pass
 
-def handler_turn_right(left_speed_entry, right_speed_entry, mqtt_sender):
-    pass
+def handler_forward(event=None, left_speed_entry=None, right_speed_entry=None, mqtt_sender=None):
+    left_speed = int(left_speed_entry.get())
+    right_speed = int(right_speed_entry.get())
+    if event is None:
+        print('You may press <Key-k> to implement the function')       #TODO: mqtt_sender sending messages delegate
+    else:
+        mqtt_sender.send_message("m1_sprint3_forward", [left_speed, right_speed])
+        print('Go forward!')
+        print('left', left_speed, 'right', right_speed)
 
+
+def handler_back(event=None, left_speed_entry=None, right_speed_entry=None, mqtt_sender=None):
+    left_speed = -int(left_speed_entry.get())
+    right_speed = -int(right_speed_entry.get())
+    if event is None:
+        print('You may press <Key-s> to implement the function')
+    else:
+        mqtt_sender.send_message('m1_sprint3_back', [left_speed, right_speed])
+        print('Go back!')
+        print('left', left_speed, 'right', right_speed)
+
+
+def handler_turn_left(event=None, left_speed_entry=None, right_speed_entry=None, mqtt_sender=None):
+    left_speed = -int(left_speed_entry.get())
+    right_speed = int(right_speed_entry.get())
+    if event is None:
+        print('You may press <Key-a> to implement the function')
+    else:
+        mqtt_sender.send_message('m1_sprint3_left', [left_speed, right_speed])
+        print('Turn left!')
+        print('left', left_speed, 'right', right_speed)
+
+
+def handler_turn_right(event=None, left_speed_entry=None, right_speed_entry=None, mqtt_sender=None):
+    left_speed = int(left_speed_entry.get())
+    right_speed = -int(right_speed_entry.get())
+    if event is None:
+        print('Button pressed, and turn right ', end='')
+    else:
+        mqtt_sender.send_message('m1_sprint3_turn_right', [left_speed, right_speed])
+        print('Turn right!')
+        print('left', left_speed, 'right', right_speed)
+
+
+main()
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
