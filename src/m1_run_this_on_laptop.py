@@ -293,7 +293,7 @@ def handler_back(event=None, left_speed_entry=None, right_speed_entry=None, mqtt
     if event is None:
         print('You may press <Key-s> to implement the function')
     else:
-        mqtt_sender.send_message('m1_sprint3_back', [left_speed, right_speed])
+        mqtt_sender.send_message('backward', [left_speed, right_speed])
         print('Go back!')
         print('left', left_speed, 'right', right_speed)
 
@@ -304,7 +304,7 @@ def handler_turn_left(event=None, left_speed_entry=None, right_speed_entry=None,
     if event is None:
         print('You may press <Key-a> to implement the function')
     else:
-        mqtt_sender.send_message('m1_sprint3_left', [left_speed, right_speed])
+        mqtt_sender.send_message('left', [left_speed, right_speed])
         print('Turn left!')
         print('left', left_speed, 'right', right_speed)
 
@@ -313,9 +313,9 @@ def handler_turn_right(event=None, left_speed_entry=None, right_speed_entry=None
     left_speed = int(left_speed_entry.get())
     right_speed = -int(right_speed_entry.get())
     if event is None:
-        print('Button pressed, and turn right ', end='')
+        print('You may press <Key-d> to implement the function')
     else:
-        mqtt_sender.send_message('m1_sprint3_turn_right', [left_speed, right_speed])
+        mqtt_sender.send_message('right', [left_speed, right_speed])
         print('Turn right!')
         print('left', left_speed, 'right', right_speed)
 

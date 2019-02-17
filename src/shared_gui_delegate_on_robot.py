@@ -10,9 +10,9 @@ import rosebot
 
 class DelegateThatReceives(object):
     def __init__(self, robot):
-        """
+        '''
         :type robot: rosebot.Rosebot
-        """
+        '''
         self.robot = robot
         self.is_time_to_stop=False
 

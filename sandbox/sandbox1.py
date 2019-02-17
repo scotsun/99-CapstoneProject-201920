@@ -338,3 +338,9 @@ class DelegateThatReceives(object):
         elif spin_direction == 0:
             self.robot.drive_system.spin_clockwise_until_sees_object(self, spin_speed, 20)
         self.m1_Go_with_IR_and_beeps(inches, speed, beep_rate, acceleration)
+
+    def m1_sprint3_forward(self):
+        pass
+
+    def m1_sprint3_detecting_mode(self, mode):
+        pass
