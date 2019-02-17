@@ -3,7 +3,7 @@ import rosebot
 import time
 import math
 
-def m1_sprint3_forward(robot, left_speed, right_speed, mode):
+def m1_sprint3_forward(robot, left_speed, right_speed):
     '''
     :type robot rosebot.RoseBot
     '''

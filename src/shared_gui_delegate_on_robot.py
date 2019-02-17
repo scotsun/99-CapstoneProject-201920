@@ -7,26 +7,28 @@
   Winter term, 2018-2019.
 """
 import rosebot
+import m1_extra as m1
+
 
 class DelegateThatReceives(object):
     def __init__(self, robot):
         '''
-        :type robot: rosebot.Rosebot
+        :type robot rosebot.RoseBot
         '''
         self.robot = robot
         self.is_time_to_stop=False
 
     def forward(self, left_wheel_speed, right_wheel_speed):
-        self.robot.drive_system.go(int(left_wheel_speed), int(right_wheel_speed))
+        self.robot.drive_system.go(left_wheel_speed, right_wheel_speed)
 
     def backward(self, left_wheel_speed, right_wheel_speed):
-        self.robot.drive_system.go(-int(left_wheel_speed), -int(right_wheel_speed))
+        self.robot.drive_system.go(left_wheel_speed, right_wheel_speed)
 
     def left(self, left_wheel_speed, right_wheel_speed):
-        self.robot.drive_system.go(-int(left_wheel_speed), int(right_wheel_speed))
+        self.robot.drive_system.go(left_wheel_speed, right_wheel_speed)
 
     def right(self, left_wheel_speed, right_wheel_speed):
-        self.robot.drive_system.go(int(left_wheel_speed), -int(right_wheel_speed))
+        self.robot.drive_system.go(left_wheel_speed, right_wheel_speed)
 
     def stop(self):
         self.robot.drive_system.stop()
@@ -247,3 +249,5 @@ class DelegateThatReceives(object):
 # -----------------------------------------------------------------------------
 # Scott Sun sprint 3
 # -----------------------------------------------------------------------------
+    def m1_sprint3_forward(self, left_speed, right_speed):
+        m1.m1_sprint3_forward(self.robot, left_speed, right_speed)
