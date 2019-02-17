@@ -33,31 +33,38 @@ def main():
 
     personal_root = tkinter.Tk()
     personal_root.title("Personal Feature")
+    sprint3_root = tkinter.Tk()
+    sprint3_root.title("Metal-and-Oil Detector")
 
     # -------------------------------------------------------------------------
     # The main frame, upon which the other frames are placed.
     # -------------------------------------------------------------------------
-    main_frame = ttk.Frame(root, padding=10)
-    main_frame.grid()
 
+    # main_frame = ttk.Frame(root, padding=10)
+    # main_frame.grid()
 
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
     # -------------------------------------------------------------------------
-    teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, \
-    ColorSensor_driving_frame, IR_driving_frame, camera_frame = get_shared_frames(main_frame, mqtt_sender)
+
+    # teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, \
+    # ColorSensor_driving_frame, IR_driving_frame, camera_frame = get_shared_frames(main_frame, mqtt_sender)
 
     # -------------------------------------------------------------------------
     # Frames that are particular to my individual contributions to the project.
     # -------------------------------------------------------------------------
     # DONE: Implement and call get_my_frames(...)
-    m1_get_my_frame(personal_root, mqtt_sender)
+
+    # m1_get_my_frame(personal_root, mqtt_sender)
+
+    m1_sprint3_get_my_frame(sprint3_root, mqtt_sender)
 
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
-    grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame,
-                ColorSensor_driving_frame, IR_driving_frame, camera_frame)
+
+    # grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame,
+    #             ColorSensor_driving_frame, IR_driving_frame, camera_frame)
 
     # -------------------------------------------------------------------------
     # The event loop:
@@ -92,6 +99,10 @@ def grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame,
     ColorSensor_driving_frame.grid(row=1, column=1)
     IR_driving_frame.grid(row=2, column=1)
     camera_frame.grid(row=3, column=1)
+
+# -----------------------------------------------------------------------------
+# Sprint 2 personal feature
+# -----------------------------------------------------------------------------
 
 def m1_get_my_frame(window, mqtt_sender):
     # frame
@@ -166,6 +177,54 @@ def handler_feature_ten_person_one(inches_entry, speed_entry, beep_rate_entry, a
         inches, speed, beep_rate, acceleration, spin_direction, spin_speed
     ])
     pass
+
+# -----------------------------------------------------------------------------
+# Sprint 3 personal feature
+# -----------------------------------------------------------------------------
+
+def m1_sprint3_get_my_frame(window, mqtt_sender):
+    frame = ttk.Frame(window, padding=10, borderwidth=10, relief="ridge")
+
+    control_panel_label = ttk.Label(frame, text="Detector Controlling Panel")
+
+    left_speed_label = ttk.Label(frame, text="left")
+    left_speed_entry = ttk.Entry(frame, width=10)
+    right_speed_label = ttk.Label(frame, text="Right")
+    right_speed_entry = ttk.Entry(frame, width=10)
+
+    turn_left_button = ttk.Button(frame, text="TurnLeft")
+    forward_button = ttk.Button(frame, text="Forward")
+    turn_right_button = ttk.Button(frame, text="TurnRight")
+    back_button = ttk.Button(frame, text="Back")
+
+    locations_label = ttk.Label(frame, text="Locations:")
+
+    oil_label = ttk.Label(frame, text="Oil")
+    oil_location_entry = ttk.Entry(frame, width=10)
+    oil_location_entry.insert(0, "N/A")
+
+    metal_label = ttk.Label(frame, text="Metal")
+    metal_location_entry = ttk.Entry(frame, width=10)
+
+    # grid the GUI
+    control_panel_label.grid(row=0, column=2)
+    left_speed_label.grid(row=1, column=0)
+    right_speed_label.grid(row=1, column=2)
+    left_speed_entry.grid(row=2, column=0)
+    right_speed_entry.grid(row=2, column=2)
+    turn_left_button.grid(row=3, column=0)
+    forward_button.grid(row=3, column=1)
+    turn_right_button.grid(row=3, column=2)
+    back_button.grid(row=4, column=1)
+    locations_label.grid(row=1, column=3)
+    oil_label.grid(row=2, column=3)
+    oil_location_entry.grid(row=2, column=4)
+    metal_label.grid(row=3, column=3)
+    metal_location_entry.grid(row=3, column=4)
+
+    return frame
+
+
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
