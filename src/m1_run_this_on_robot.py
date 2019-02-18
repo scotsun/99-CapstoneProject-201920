@@ -25,6 +25,7 @@ def real_thing():
     robot = rosebot.RoseBot()
     delegate_that_receives = shared_gui_delegate_on_robot.DelegateThatReceives(robot)
     mqtt_receiver = com.MqttClient(delegate_that_receives)
+    delegate_that_receives.mqtt_client = mqtt_receiver
     mqtt_receiver.connect_to_pc()
 
     while True:
@@ -33,8 +34,6 @@ def real_thing():
             break
 
 
-def personal_feature(self, speed, inches):
-    self.robot.DriveSystem.go_forward_until_distance_is_less_than(inches, speed)
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------

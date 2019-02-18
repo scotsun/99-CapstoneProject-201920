@@ -11,12 +11,13 @@ import m1_extra as m1
 
 
 class DelegateThatReceives(object):
-    def __init__(self, robot):
+    def __init__(self, robot, mqtt_client=None):
         '''
         :type robot rosebot.RoseBot
         '''
         self.robot = robot
         self.is_time_to_stop=False
+        self.mqtt_client = mqtt_client
 
     def forward(self, left_wheel_speed, right_wheel_speed):
         self.robot.drive_system.go(left_wheel_speed, right_wheel_speed)
@@ -249,10 +250,12 @@ class DelegateThatReceives(object):
 # -----------------------------------------------------------------------------
 # Scott Sun sprint 3
 # -----------------------------------------------------------------------------
-    def m1_sprint3_forward(self, left_speed, right_speed, mode):
-        m1.sprint3_detect(self.robot, mode)
+    def m1_sprint3_forward(self, left_speed, right_speed):
         m1.sprint3_forward(self.robot, left_speed, right_speed)
 
 
     def m1_sprint3_clear_path(self):
         m1.sprint3_clear_path(self.robot)
+
+    def m1_roboprint(self):
+        m1.roboprint(self.robot, self.mqtt_client)

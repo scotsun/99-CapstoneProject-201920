@@ -2,6 +2,8 @@
 import rosebot
 import time
 import math
+import mqtt_remote_method_calls as com
+
 
 def sprint3_forward(robot, left_speed, right_speed):
     '''
@@ -42,8 +44,19 @@ def sprint3_detect(robot, mode):
     :type robot rosebot.RoseBot
     '''
     if mode == "Oil":
-        if robot.sensor_system.color_sensor.get_color_as_name() == "Red":
+        if robot.sensor_system.color_sensor.get_color_as_name() == "Black": #TODO: might change the colors
             robot.sound_system.speak_phrase("I found Oil")
     if mode == "Metal":
         if robot.sensor_system.color_sensor.get_color_as_name() == "White":
             robot.sound_system.speak_phrase("I found Metal")
+
+
+def roboprint(robot, mqtt_client):
+    color = robot.sensor_system.color_sensor.get_color_as_name()
+    if color == "Black":
+        print("I found a source of oil :)")
+        mqtt_client.send_message("help")
+    elif color == "White":
+        print("I found a source of metal :)")
+    else:
+        print("I found nothing :(")

@@ -11,6 +11,8 @@ import mqtt_remote_method_calls as com
 import tkinter
 from tkinter import ttk
 import shared_gui
+import m1_extra_gui as m1
+
 
 
 def main():
@@ -28,13 +30,17 @@ def main():
     # -------------------------------------------------------------------------
     # The root TK object for the GUI:
     # -------------------------------------------------------------------------
-    root = tkinter.Tk()
-    root.title("CSSE 120 Capstone Project")
 
-    personal_root = tkinter.Tk()
-    personal_root.title("Personal Feature")
+    # root = tkinter.Tk()
+    # root.title("CSSE 120 Capstone Project")
+    #
+    # personal_root = tkinter.Tk()
+    # personal_root.title("Personal Feature")
+
     sprint3_root = tkinter.Tk()
     sprint3_root.title("Metal-and-Oil Detector")
+    sprint3_root.configure(background="cornflower blue")
+    sprint3_root.geometry("337x340")
 
     # -------------------------------------------------------------------------
     # The main frame, upon which the other frames are placed.
@@ -69,8 +75,9 @@ def main():
     # -------------------------------------------------------------------------
     # The event loop:
     # -------------------------------------------------------------------------
-    root.mainloop()
 
+    # root.mainloop()
+    sprint3_root.mainloop()
 
 
 
@@ -183,11 +190,15 @@ def handler_feature_ten_person_one(inches_entry, speed_entry, beep_rate_entry, a
 # -----------------------------------------------------------------------------
 
 def m1_sprint3_get_my_frame(window, mqtt_sender):
+    panel_label = ttk.Label(window, text="Oil/Metal Detector Controlling Panel",
+                            font=("Oil/Metal Detector Controlling Panel", 16))
+    panel_label.grid(row=0, column=0)
+
     frame_1 = ttk.Frame(window, padding=10, borderwidth=20, relief="sunken")
-    frame_1.grid()
+    frame_1.grid(row=1, column=0)
 
     frame_2 = ttk.Frame(window, padding=10, borderwidth=20, relief="sunken")
-    frame_2.grid()
+    frame_2.grid(row=2, column=0)
 
     left_speed_label = ttk.Label(frame_1, text="left")
     left_speed_entry = ttk.Entry(frame_1, width=10)
@@ -199,6 +210,7 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     turn_right_button = ttk.Button(frame_1, text="TurnRight")
     back_button = ttk.Button(frame_1, text="Back")
 
+    detect_button = ttk.Button(frame_2, text="Detect")
     remove_object_button = ttk.Button(frame_2, text="Remove Object")
 
     oil_radio = ttk.Radiobutton(frame_2, text="Oil", value="Oil")
@@ -216,11 +228,12 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     turn_right_button.grid(row=3, column=2)
     back_button.grid(row=4, column=1)
 
-    oil_radio.grid(row=2, column=6)
-    metal_radio.grid(row=3, column=6)
-    remove_object_button.grid(row=4, column=6)
+    oil_radio.grid(row=0, column=0)
+    metal_radio.grid(row=1, column=0)
+    remove_object_button.grid(row=0, column=2)
+    detect_button.grid(row=1, column=2)
 
-    exit_button.grid(row=10, column=10)
+    exit_button.grid(row=3, column=0)
 
     # features on radio-buttons
     radio_observer = tkinter.StringVar()
@@ -242,6 +255,8 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     turn_right_button["command"] = lambda: handler_turn_right(left_speed_entry=left_speed_entry,
                                                               right_speed_entry=right_speed_entry,
                                                               mqtt_sender=mqtt_sender)
+    detect_button["command"] = lambda: handler_detect(mqtt_sender=mqtt_sender)
+
     remove_object_button["command"] = lambda: handler_remove_object(mqtt_sender)
     exit_button["command"] = lambda: exit()
 
@@ -260,7 +275,9 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     window.bind_all('<Key-d>', lambda event: handler_turn_right(event,
                                                                 left_speed_entry=left_speed_entry,
                                                                 right_speed_entry=right_speed_entry, mqtt_sender=mqtt_sender))
-    window.bind_all('<Key-space>', lambda event: handler_remove_object(event, mqtt_sender=mqtt_sender))
+    window.bind_all('<Key-n>', lambda event: handler_remove_object(event, mqtt_sender=mqtt_sender))
+
+    window.bind_all('<Key-m>', lambda event: handler_detect(event, mqtt_sender=mqtt_sender))
     return frame_1, frame_2
 
 def radiobutton_changed(radio_observer,mqtt_sender):
@@ -328,11 +345,16 @@ def handler_turn_right(event=None, left_speed_entry=None, right_speed_entry=None
 
 def handler_remove_object(event=None, mqtt_sender=None):
     if event is None:
-        print("You may press <Key-space> to implement the function")
+        print("You may press <Key-n> to implement the function")
     else:
         mqtt_sender.send_message('m1_sprint3_clear_path')
         print("Removing")
 
+def handler_detect(event=None, mqtt_sender=None):
+    if event is None:
+        print("You may press <Key-m> to implement the function")
+    else:
+        mqtt_sender.send_message('m1_roboprint')
 
 main()
 
