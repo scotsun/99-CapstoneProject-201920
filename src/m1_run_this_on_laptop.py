@@ -24,7 +24,8 @@ def main():
     # -------------------------------------------------------------------------
     # Construct and connect the MQTT Client:
     # -------------------------------------------------------------------------
-    mqtt_sender = com.MqttClient()
+    laptop_delegate = m1.DelegateLaptop
+    mqtt_sender = com.MqttClient(laptop_delegate)
     mqtt_sender.connect_to_ev3()
 
     # -------------------------------------------------------------------------
@@ -238,9 +239,9 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     # features on radio-buttons
     radio_observer = tkinter.StringVar()
     oil_radio["variable"] = radio_observer
-    oil_radio["command"] = lambda: radiobutton_changed(radio_observer, mqtt_sender)
+    oil_radio["command"] = lambda: radiobutton_changed(radio_observer)
     metal_radio["variable"] = radio_observer
-    metal_radio["command"] = lambda: radiobutton_changed(radio_observer, mqtt_sender)
+    metal_radio["command"] = lambda: radiobutton_changed(radio_observer)
 
     # buttons' commands
     forward_button["command"] = lambda: handler_forward(left_speed_entry=left_speed_entry,
@@ -277,9 +278,13 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
                                                                 right_speed_entry=right_speed_entry, mqtt_sender=mqtt_sender))
     window.bind_all('<Key-n>', lambda event: handler_remove_object(event, mqtt_sender=mqtt_sender))
 
-    window.bind_all('<Key-m>', lambda event: handler_detect(event, mqtt_sender=mqtt_sender))
+    window.bind_all('<Key-m>', lambda event: handler_detect(event, radio_observer=radio_observer, mqtt_sender=mqtt_sender))
     return frame_1, frame_2
 
+def radiobutton_changed(radio_observer):
+    mode = radio_observer.get()
+    print('The detector is turned to', mode, 'detecting mode.')
+    return mode
 
 def handler_stop(event, mqtt_sender):
     if event.keysym is "a":
@@ -300,7 +305,7 @@ def handler_forward(event=None, left_speed_entry=None, right_speed_entry=None, m
     left_speed = int(left_speed_entry.get())
     right_speed = int(right_speed_entry.get())
     if event is None:
-        print('You may press <Key-k> to implement the function')
+        print('You may press <Key-w> to implement the function')
     else:
         mqtt_sender.send_message("m1_sprint3_forward", [left_speed, right_speed])
         print('Go forward!')
@@ -348,8 +353,8 @@ def handler_remove_object(event=None, mqtt_sender=None):
 
 
 def handler_detect(event=None, radio_observer=None, mqtt_sender=None):
-    mode = radio_observer.get()
-    print('The detector is turned to', mode, 'detecting mode.')
+    mode = radiobutton_changed(radio_observer)
+    # print('The detector is turned to', mode, 'detecting mode.')
     if event is None:
         print("You may press <Key-m> to implement the function")
     else:

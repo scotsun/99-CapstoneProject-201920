@@ -1,8 +1,6 @@
 # This module contains the functions that will be imported to the share_gui_delegate module
 import rosebot
 import time
-import math
-import mqtt_remote_method_calls as com
 
 
 def sprint3_forward(robot, left_speed, right_speed):
@@ -16,9 +14,9 @@ def sprint3_forward(robot, left_speed, right_speed):
 
     while True:
         distance_to_ob = robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
-        if distance_to_ob <= 10:
+        if distance_to_ob <= 15:
             robot.sound_system.beeper.beep()
-            time.sleep(math.exp(-distance_to_ob+10))
+            time.sleep((distance_to_ob**0.5)/10)
             if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 5:
                 robot.drive_system.stop()
                 break
@@ -32,7 +30,7 @@ def sprint3_clear_path(robot):
     start_time = time.time()
     robot.drive_system.go(-25, 25)
     while True:
-        if time.time()-start_time >= 8:
+        if time.time()-start_time >= 3:
             robot.drive_system.stop()
             robot.arm_and_claw.lower_arm()
             robot.sound_system.speak_phrase("Object is removed")
@@ -49,12 +47,10 @@ def sprint3_detect(robot, mode, mqtt_client):
     if mode == "Oil" and color == "Black":
         robot.sound_system.speak_phrase("I found Oil")
         message = 1
-        mqtt_client.send_message("help", [message])
     elif mode == "Metal" and color == "White":
         robot.sound_system.speak_phrase("I found Metal")
         message = 2
-        mqtt_client.send_message("help", [message])
     else:
         robot.sound_system.speak_phrase("I found nothing")
         message = 3
-        mqtt_client.send_message("help", [message])
+    mqtt_client.send_message("roboprint", [message])
