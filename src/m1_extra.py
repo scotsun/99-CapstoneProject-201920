@@ -39,24 +39,22 @@ def sprint3_clear_path(robot):
             break
 
 
-def sprint3_detect(robot, mode):
+
+
+def sprint3_detect(robot, mode, mqtt_client):
     '''
     :type robot rosebot.RoseBot
     '''
-    if mode == "Oil":
-        if robot.sensor_system.color_sensor.get_color_as_name() == "Black": #TODO: might change the colors
-            robot.sound_system.speak_phrase("I found Oil")
-    if mode == "Metal":
-        if robot.sensor_system.color_sensor.get_color_as_name() == "White":
-            robot.sound_system.speak_phrase("I found Metal")
-
-
-def roboprint(robot, mqtt_client):
     color = robot.sensor_system.color_sensor.get_color_as_name()
-    if color == "Black":
-        print("I found a source of oil :)")
-        mqtt_client.send_message("help")
-    elif color == "White":
-        print("I found a source of metal :)")
+    if mode == "Oil" and color == "Black":
+        robot.sound_system.speak_phrase("I found Oil")
+        message = 1
+        mqtt_client.send_message("help", [message])
+    elif mode == "Metal" and color == "White":
+        robot.sound_system.speak_phrase("I found Metal")
+        message = 2
+        mqtt_client.send_message("help", [message])
     else:
-        print("I found nothing :(")
+        robot.sound_system.speak_phrase("I found nothing")
+        message = 3
+        mqtt_client.send_message("help", [message])

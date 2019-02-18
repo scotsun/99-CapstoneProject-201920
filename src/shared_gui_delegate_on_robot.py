@@ -257,5 +257,5 @@ class DelegateThatReceives(object):
     def m1_sprint3_clear_path(self):
         m1.sprint3_clear_path(self.robot)
 
-    def m1_roboprint(self):
-        m1.roboprint(self.robot, self.mqtt_client)
+    def m1_sprint3_detect(self, mode):
+        m1.sprint3_detect(self.robot, mode, self.mqtt_client)

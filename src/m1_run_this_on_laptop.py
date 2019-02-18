@@ -280,10 +280,6 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     window.bind_all('<Key-m>', lambda event: handler_detect(event, mqtt_sender=mqtt_sender))
     return frame_1, frame_2
 
-def radiobutton_changed(radio_observer,mqtt_sender):
-    mode = radio_observer.get()
-    print('The detector is turned to', mode, 'detecting mode.')
-    mqtt_sender.send_message("m1_sprint3_detect", [mode])
 
 def handler_stop(event, mqtt_sender):
     if event.keysym is "a":
@@ -350,11 +346,14 @@ def handler_remove_object(event=None, mqtt_sender=None):
         mqtt_sender.send_message('m1_sprint3_clear_path')
         print("Removing")
 
-def handler_detect(event=None, mqtt_sender=None):
+
+def handler_detect(event=None, radio_observer=None, mqtt_sender=None):
+    mode = radio_observer.get()
+    print('The detector is turned to', mode, 'detecting mode.')
     if event is None:
         print("You may press <Key-m> to implement the function")
     else:
-        mqtt_sender.send_message('m1_roboprint')
+        mqtt_sender.send_message('m1_sprint3_detect', [mode])
 
 main()
 
