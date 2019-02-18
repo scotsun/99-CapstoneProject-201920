@@ -17,7 +17,7 @@ def sprint3_forward(robot, left_speed, right_speed):
         if distance_to_ob <= 15:
             robot.sound_system.beeper.beep()
             time.sleep((distance_to_ob**0.5)/10)
-            if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 5:
+            if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 1:
                 robot.drive_system.stop()
                 break
 

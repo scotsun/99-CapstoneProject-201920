@@ -258,7 +258,7 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
                                                               mqtt_sender=mqtt_sender)
     detect_button["command"] = lambda: handler_detect(mqtt_sender=mqtt_sender)
 
-    remove_object_button["command"] = lambda: handler_remove_object(mqtt_sender)
+    remove_object_button["command"] = lambda: handler_remove_object(mqtt_sender=mqtt_sender)
     exit_button["command"] = lambda: exit()
 
     # bind the laptop's keyboard to controlling panel (gui)
