@@ -7,29 +7,27 @@
   Winter term, 2018-2019.
 """
 import rosebot
-import m1_extra as m1
-
-
+import m2_extra
+import time
 class DelegateThatReceives(object):
-    def __init__(self, robot, mqtt_client=None):
-        '''
-        :type robot rosebot.RoseBot
-        '''
+    def __init__(self, robot):
+        """
+        :type robot: rosebot.Rosebot
+        """
         self.robot = robot
         self.is_time_to_stop=False
-        self.mqtt_client = mqtt_client
 
     def forward(self, left_wheel_speed, right_wheel_speed):
-        self.robot.drive_system.go(left_wheel_speed, right_wheel_speed)
+        self.robot.drive_system.go(int(left_wheel_speed), int(right_wheel_speed))
 
     def backward(self, left_wheel_speed, right_wheel_speed):
-        self.robot.drive_system.go(left_wheel_speed, right_wheel_speed)
+        self.robot.drive_system.go(int(left_wheel_speed), int(right_wheel_speed))
 
     def left(self, left_wheel_speed, right_wheel_speed):
-        self.robot.drive_system.go(left_wheel_speed, right_wheel_speed)
+        self.robot.drive_system.go(int(left_wheel_speed), int(right_wheel_speed))
 
     def right(self, left_wheel_speed, right_wheel_speed):
-        self.robot.drive_system.go(left_wheel_speed, right_wheel_speed)
+        self.robot.drive_system.go(int(left_wheel_speed), int(right_wheel_speed))
 
     def stop(self):
         self.robot.drive_system.stop()
@@ -47,7 +45,7 @@ class DelegateThatReceives(object):
         self.is_time_to_stop = True
 
     def exit(self):
-        exit()
+        print('exit')
 
 
     def go_straight_using_seconds(self, seconds, speed):
@@ -112,9 +110,9 @@ class DelegateThatReceives(object):
 
     def m1_Find_Go_with_IR_and_beeps(self, inches, speed, beep_rate, acceleration, spin_direction, spin_speed):
         if spin_direction == 1:
-            self.robot.drive_system.spin_clockwise_until_sees_object(self, spin_speed, 20)
+            self.robot.drive_system.spin_clockwise_until_sees_object(spin_speed, 20)
         elif spin_direction == 0:
-            self.robot.drive_system.spin_clockwise_until_sees_object(self, spin_speed, 20)
+            self.robot.drive_system.spin_clockwise_until_sees_object(spin_speed, 20)
         self.m1_Go_with_IR_and_beeps(inches, speed, beep_rate, acceleration)
 
 
@@ -146,25 +144,22 @@ class DelegateThatReceives(object):
                 if t1<distance:
                     self.stop()
                     break
-        self.robot.arm_and_claw.move_arm_to_position(2000)
-        self.robot.arm_and_claw.move_arm_to_position(5000)
+        self.robot.arm_and_claw.raise_arm()
         time.sleep(2)
 
 
 
 
     def m2_Spin_and_grab(self,direction,speed,freq,rate):
+        speed=int(speed)
+        freq=int(freq)
+        rate=int(rate)
         if direction=='clockwise':
-            self.robot.drive_system.spin_clockwise_until_sees_object(speed,25)
+            self.robot.drive_system.spin_clockwise_until_sees_object(speed,5)
         else:
-            self.robot.drive_system.spin_counterclockwise_until_sees_object(speed,25)
-        self.m2_Go_with_IR_and_tones(freq,rate,speed)
-    def P_of_PID_control(self,speed):
-        original=self.robot.sensor_system.color_system.get_reflected_light_intensity()
-        for k in range(5):
-            current=self.robot.sensor_system.color_system.get_reflected_light_intensity()
-            error=current-original
-            self.robot.drive_system.go(B+(error*K1),B+(error*K2))
+            self.robot.drive_system.spin_counterclockwise_until_sees_object(speed,5)
+        self.m2_Go_with_IR_and_tones(freq,speed,rate)
+
 
     def run_leds(self, rate_of_increase):
         import time
@@ -210,14 +205,8 @@ class DelegateThatReceives(object):
         import time
         distance = 11
         self.robot.arm_and_claw.calibrate_arm()
-        c = self.robot.drive_system.spin_counterclockwise_until_sees_object()
-        if c < distance:
-            self.stop()
-        else:
-            if self.robot.drive_system.spin_counterclockwise_until_sees_object() < distance:
-                self.stop()
-            else:
-                self.robot.drive_system.go(25, 25)
+        self.robot.drive_system.spin_counterclockwise_until_sees_object(25,50)
+        self.robot.drive_system.go(25, 25)
         k = 1
         time.sleep(0.1)
         diff = 0.01
@@ -246,16 +235,43 @@ class DelegateThatReceives(object):
 
         self.robot.arm_and_claw.raise_arm()
 
+    def m2_idle_animation(self,speed,area):
+        m2_extra.idle_animation(self.robot, speed,area)
+    def m2_go_to_object_left(self,speed,distance):
+        m2_extra.go_to_object_left(self.robot,speed,distance)
+    def m2_go_to_object_right(self,speed,distance):
+        m2_extra.go_to_object_right(self.robot,speed,distance)
+    def m2_determine_location(self):
+        m2_extra.determine_location(self.robot)
+    def m2_fist_bump(self):
+        m2_extra.fist_bump(self.robot)
+    def m2_sleep(self):
+        m2_extra.sleep_animation(self.robot)
+    def handle_homework(self):
+        self.robot.arm_and_claw.lower_arm()
+        self.m2_idle_animation(25,5)
+        direction=self.m2_determine_location()
+        if direction=='left':
+            self.m2_go_to_object_left(25,5)
+        else:
+            self.m2_go_to_object_right(25,5)
+        self.robot.arm_and_claw.raise_arm()
+        start=time.time()
+        self.robot.drive_system.go(-25,25)
+        for k in range(10):
+            self.robot.sound_system.speak_phrase('No')
+            time.sleep(0.1)
+        self.robot.drive_system.stop()
+        self.robot.drive_system.go(50,50)
+        self.robot.sound_system.speak_phrase('I Dont want to')
+        time.sleep(5)
+        self.robot.drive_system.stop()
+    def handle_idle(self):
+        self.m2_idle_animation(25,5)
 
-# -----------------------------------------------------------------------------
-# Scott Sun sprint 3
-# -----------------------------------------------------------------------------
-    def m1_sprint3_forward(self, left_speed, right_speed):
-        m1.sprint3_forward(self.robot, left_speed, right_speed)
-
-
-    def m1_sprint3_clear_path(self):
-        m1.sprint3_clear_path(self.robot)
-
-    def m1_sprint3_detect(self, mode):
-        m1.sprint3_detect(self.robot, mode, self.mqtt_client)
+    def handle_fist_bump(self):
+        self.go_forward_with_ir(15,25)
+        self.robot.arm_and_claw.lower_arm()
+        self.m2_fist_bump()
+    def handle_sleeping(self):
+        self.m2_sleep()

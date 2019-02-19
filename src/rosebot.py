@@ -335,7 +335,7 @@ class DriveSystem(object):
 
             if current_area < area:
                 self.go(speed, -speed)
-                time.sleep(0.2)
+                time.sleep(0.1)
                 self.stop()
             else:
                 break
@@ -354,10 +354,14 @@ class DriveSystem(object):
 
             if current_area < area:
                 self.go(-speed, speed)
-                time.sleep(0.2)
+                time.sleep(0.1)
                 self.stop()
             else:
                 break
+
+
+
+
 
 
 
@@ -464,7 +468,6 @@ class SensorSystem(object):
         self.ir_proximity_sensor = InfraredProximitySensor(4)
         self.camera = Camera()
         #self.ir_beacon_sensor = InfraredBeaconSensor(4)
-        #self.beacon_system =
         #self.beacon_system =
         #self.display_system =
 
