@@ -11,7 +11,7 @@ import mqtt_remote_method_calls as com
 import tkinter
 from tkinter import ttk
 import shared_gui
-import m1_extra_gui as m1
+import m1_laptop_delegate as m1
 
 
 

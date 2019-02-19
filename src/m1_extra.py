@@ -43,6 +43,8 @@ def sprint3_detect(robot, mode, mqtt_client):
     '''
     :type robot rosebot.RoseBot
     '''
+
+    # message = [0]
     color = robot.sensor_system.color_sensor.get_color_as_name()
     if mode == "Oil" and color == "Black":
         robot.sound_system.speak_phrase("I found Oil")
