@@ -45,10 +45,10 @@ def sprint3_detect(robot, mode, mqtt_client):
     '''
     color = robot.sensor_system.color_sensor.get_color_as_name()
     if mode == "Oil" and color == "Black":
-        robot.sound_system.speak_phrase("I found Oil").wait()
+        robot.sound_system.speak_phrase("I have detected a source of Oil").wait()
         message = "1"
     elif mode == "Metal" and color == "White":
-        robot.sound_system.speak_phrase("I found Metal").wait()
+        robot.sound_system.speak_phrase("I have detected a source of Metal").wait()
         message = "2"
     else:
         robot.sound_system.speak_phrase("I found nothing").wait()

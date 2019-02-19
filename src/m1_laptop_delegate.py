@@ -4,9 +4,9 @@ class DelegateLaptop(object):
         pass
 
     def roboprint(self, message):
-        if message == 1:
+        if message == "1":
             print("A source of oil is detected")
-        elif message == 2:
+        elif message == "2":
             print("A source of metal is detected")
-        elif message == 3:
+        elif message == "3":
             print("Nothing found yet")
