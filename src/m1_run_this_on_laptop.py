@@ -24,7 +24,7 @@ def main():
     # -------------------------------------------------------------------------
     # Construct and connect the MQTT Client:
     # -------------------------------------------------------------------------
-    laptop_delegate = m1.DelegateLaptop
+    laptop_delegate = m1.DelegateLaptop()
     mqtt_sender = com.MqttClient(laptop_delegate)
     mqtt_sender.connect_to_ev3()
 
