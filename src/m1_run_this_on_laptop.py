@@ -259,7 +259,9 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     turn_right_button["command"] = lambda: handler_turn_right(left_speed_entry=left_speed_entry,
                                                               right_speed_entry=right_speed_entry,
                                                               mqtt_sender=mqtt_sender)
-    park_assist_button["command"] =lambda: pass
+    park_assist_button["command"] =lambda: handler_park_assist(left_speed_entry=left_speed_entry,
+                                                               right_speed_entry=right_speed_entry,
+                                                               mqtt_sender=mqtt_sender)
     detect_button["command"] = lambda: handler_detect(mqtt_sender=mqtt_sender)
 
     remove_object_button["command"] = lambda: handler_remove_object(mqtt_sender=mqtt_sender)
@@ -280,6 +282,10 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     window.bind_all('<Key-d>', lambda event: handler_turn_right(event,
                                                                 left_speed_entry=left_speed_entry,
                                                                 right_speed_entry=right_speed_entry, mqtt_sender=mqtt_sender))
+    window.bind_all('<Key-p>', lambda event: handler_park_assist(event,
+                                                                 left_speed_entry=left_speed_entry,
+                                                                 right_speed_entry=right_speed_entry, mqtt_sender=mqtt_sender))
+
     window.bind_all('<Key-n>', lambda event: handler_remove_object(event, mqtt_sender=mqtt_sender))
 
     window.bind_all('<Key-m>', lambda event: handler_detect(event, radio_observer=radio_observer, mqtt_sender=mqtt_sender))

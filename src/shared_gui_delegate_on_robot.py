@@ -202,8 +202,10 @@ class DelegateThatReceives(object):
                     break
 
         self.robot.arm_and_claw.raise_arm()
+
     # Scott Sun personal delegate
-    #---------------------------------------------------------------------------------
+    #------------------------------------------------------------------------------------
+
     def m1_sprint3_park_assist(self, left_speed, right_speed):
         m1.sprint3_park_assist(self.robot, left_speed, right_speed)
 
@@ -212,6 +214,7 @@ class DelegateThatReceives(object):
 
     def m1_sprint3_detect(self, mode):
         m1.sprint3_detect(self.robot, mode, self.mqtt_client)
+    #-------------------------------------------------------------------------------------
 
     def run_leds_with_camera(self):
         import time
