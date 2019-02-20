@@ -32,11 +32,11 @@ def main():
     # The root TK object for the GUI:
     # -------------------------------------------------------------------------
 
-    root = tkinter.Tk()
-    root.title("CSSE 120 Capstone Project")
-
-    personal_root = tkinter.Tk()
-    personal_root.title("Personal Feature")
+    # root = tkinter.Tk()
+    # root.title("CSSE 120 Capstone Project")
+    #
+    # personal_root = tkinter.Tk()
+    # personal_root.title("Personal Feature")
 
     sprint3_root = tkinter.Tk()
     sprint3_root.title("Metal-and-Oil Detector")
