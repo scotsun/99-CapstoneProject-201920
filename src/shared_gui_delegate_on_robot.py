@@ -6,17 +6,18 @@
     and Emily Wilcox, Scott Sun, Daniel Pollack.
   Winter term, 2018-2019.
 """
-
+import m1_extra as m1
 import m2_extra
 import time
 class DelegateThatReceives(object):
 
-    def __init__(self, robot):
+    def __init__(self, robot, mqtt_client=None):
         """
         :type robot: rosebot.Rosebot
         """
         self.robot = robot
         self.is_time_to_stop=False
+        self.mqtt_client = mqtt_client
 
     def forward(self, left_wheel_speed, right_wheel_speed):
         self.robot.drive_system.go(int(left_wheel_speed), int(right_wheel_speed))
@@ -296,5 +297,15 @@ class DelegateThatReceives(object):
             self.robot.sound_system.speak_phrase('AHHHHHHHHH')
             time.sleep(value)
             self.robot.drive_system.stop()
+
+# Scott's personal features. Don't delete!
+    def m1_sprint3_park_assist(self, left_speed, right_speed):
+        m1.sprint3_park_assist(self.robot, left_speed, right_speed)
+
+    def m1_sprint3_clear_path(self):
+        m1.sprint3_clear_path(self.robot)
+
+    def m1_sprint3_detect(self, mode):
+        m1.sprint3_detect(self.robot, mode, self.mqtt_client)
 
 
