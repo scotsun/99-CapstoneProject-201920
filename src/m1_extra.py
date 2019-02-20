@@ -3,7 +3,7 @@ import rosebot
 import time
 
 
-def sprint3_forward(robot, left_speed, right_speed):
+def sprint3_park_assist(robot, left_speed, right_speed):
     '''
     :type robot rosebot.RoseBot
     '''
@@ -26,6 +26,8 @@ def sprint3_clear_path(robot):
     '''
     :type robot rosebot.RoseBot
     '''
+    # This function allows the robot to remove the obstacles on its pathway;
+    # After removing the objects, it is going to speak "Object is removed"
     robot.arm_and_claw.raise_arm()
     start_time = time.time()
     robot.drive_system.go(-25, 25)
@@ -44,13 +46,13 @@ def sprint3_detect(robot, mode, mqtt_client):
     :type robot rosebot.RoseBot
     '''
     color = robot.sensor_system.color_sensor.get_color_as_name()
-    if mode == "Oil" and color == "Black":
-        robot.sound_system.speak_phrase("I have detected a source of Oil").wait()
+    if mode == "Oil" and color == "Red":
+        robot.sound_system.speak_phrase("I have detected a source of Oil")
         message = "1"
     elif mode == "Metal" and color == "White":
-        robot.sound_system.speak_phrase("I have detected a source of Metal").wait()
+        robot.sound_system.speak_phrase("I have detected a source of Metal")
         message = "2"
     else:
-        robot.sound_system.speak_phrase("I found nothing").wait()
+        robot.sound_system.speak_phrase("I found nothing")
         message = "3"
     mqtt_client.send_message("roboprint", [message])

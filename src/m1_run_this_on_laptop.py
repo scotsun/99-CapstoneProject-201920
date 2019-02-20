@@ -32,11 +32,11 @@ def main():
     # The root TK object for the GUI:
     # -------------------------------------------------------------------------
 
-    # root = tkinter.Tk()
-    # root.title("CSSE 120 Capstone Project")
-    #
-    # personal_root = tkinter.Tk()
-    # personal_root.title("Personal Feature")
+    root = tkinter.Tk()
+    root.title("CSSE 120 Capstone Project")
+
+    personal_root = tkinter.Tk()
+    personal_root.title("Personal Feature")
 
     sprint3_root = tkinter.Tk()
     sprint3_root.title("Metal-and-Oil Detector")
@@ -211,6 +211,8 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     turn_right_button = ttk.Button(frame_1, text="TurnRight")
     back_button = ttk.Button(frame_1, text="Back")
 
+    park_assist_button = ttk.Button(frame_1, text="Park Assist")
+
     detect_button = ttk.Button(frame_2, text="Detect")
     remove_object_button = ttk.Button(frame_2, text="Remove Object")
 
@@ -228,6 +230,7 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     forward_button.grid(row=3, column=1)
     turn_right_button.grid(row=3, column=2)
     back_button.grid(row=4, column=1)
+    park_assist_button.grid(row=4, column=2)
 
     oil_radio.grid(row=0, column=0)
     metal_radio.grid(row=1, column=0)
@@ -256,6 +259,7 @@ def m1_sprint3_get_my_frame(window, mqtt_sender):
     turn_right_button["command"] = lambda: handler_turn_right(left_speed_entry=left_speed_entry,
                                                               right_speed_entry=right_speed_entry,
                                                               mqtt_sender=mqtt_sender)
+    park_assist_button["command"] =lambda: pass
     detect_button["command"] = lambda: handler_detect(mqtt_sender=mqtt_sender)
 
     remove_object_button["command"] = lambda: handler_remove_object(mqtt_sender=mqtt_sender)
@@ -307,7 +311,7 @@ def handler_forward(event=None, left_speed_entry=None, right_speed_entry=None, m
     if event is None:
         print('You may press <Key-w> to implement the function')
     else:
-        mqtt_sender.send_message("m1_sprint3_forward", [left_speed, right_speed])
+        mqtt_sender.send_message("forward", [left_speed, right_speed])
         print('Go forward!')
         print('left', left_speed, 'right', right_speed)
 
@@ -343,6 +347,15 @@ def handler_turn_right(event=None, left_speed_entry=None, right_speed_entry=None
         mqtt_sender.send_message('right', [left_speed, right_speed])
         print('Turn right!')
         print('left', left_speed, 'right', right_speed)
+
+def handler_park_assist(event=None, left_speed_entry=None, right_speed_entry=None, mqtt_sender=None):
+    left_speed = int(left_speed_entry.get())
+    right_speed = -int(right_speed_entry.get())
+    if event is None:
+        print('You may press <Key-p> to implement the function')
+    else:
+        mqtt_sender.send_message('m1_sprint3_park_assist', [left_speed, right_speed])
+
 
 def handler_remove_object(event=None, mqtt_sender=None):
     if event is None:
