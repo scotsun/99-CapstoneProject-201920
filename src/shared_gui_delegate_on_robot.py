@@ -6,18 +6,17 @@
     and Emily Wilcox, Scott Sun, Daniel Pollack.
   Winter term, 2018-2019.
 """
-import rosebot
-import m1_extra as m1
+
 import m2_extra
 import time
 class DelegateThatReceives(object):
-    def __init__(self, robot, mqtt_client=None):
+
+    def __init__(self, robot):
         """
         :type robot: rosebot.Rosebot
         """
         self.robot = robot
         self.is_time_to_stop=False
-        self.mqtt_client = mqtt_client
 
     def forward(self, left_wheel_speed, right_wheel_speed):
         self.robot.drive_system.go(int(left_wheel_speed), int(right_wheel_speed))
@@ -203,19 +202,6 @@ class DelegateThatReceives(object):
 
         self.robot.arm_and_claw.raise_arm()
 
-    # Scott Sun personal delegate
-    #------------------------------------------------------------------------------------
-
-    def m1_sprint3_park_assist(self, left_speed, right_speed):
-        m1.sprint3_park_assist(self.robot, left_speed, right_speed)
-
-    def m1_sprint3_clear_path(self):
-        m1.sprint3_clear_path(self.robot)
-
-    def m1_sprint3_detect(self, mode):
-        m1.sprint3_detect(self.robot, mode, self.mqtt_client)
-    #-------------------------------------------------------------------------------------
-
     def run_leds_with_camera(self):
         import time
         distance = 11
@@ -281,6 +267,7 @@ class DelegateThatReceives(object):
         self.robot.sound_system.speak_phrase('I Dont want to')
         time.sleep(5)
         self.robot.drive_system.stop()
+
     def handle_idle(self):
         self.m2_idle_animation(25,5)
 
@@ -288,5 +275,26 @@ class DelegateThatReceives(object):
         self.go_forward_with_ir(15,25)
         self.robot.arm_and_claw.lower_arm()
         self.m2_fist_bump()
+
     def handle_sleeping(self):
         self.m2_sleep()
+
+    def sleep(self, value):
+        for k in range(value):
+            self.robot.sound_system.speak_phrase('Sleep')
+            time.sleep(1)
+
+    def crawl(self, value):
+        for k in range(value):
+            self.robot.drive_system.go(50, 50)
+            time.sleep(value)
+            self.robot.drive_system.stop()
+
+    def cry(self, value):
+        for k in range(value):
+            self.robot.drive_system.go(-75, 75)
+            self.robot.sound_system.speak_phrase('AHHHHHHHHH')
+            time.sleep(value)
+            self.robot.drive_system.stop()
+
+

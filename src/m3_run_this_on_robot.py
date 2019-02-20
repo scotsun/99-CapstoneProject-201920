@@ -17,43 +17,23 @@ def main():
       1. Makes the EV3 robot to various things.
       2. Communicates via MQTT with the GUI code that runs on the LAPTOP.
     """
-    # run_test_arm()
-    # run_test_calibrate()
-    # run_test_move_arm()
-    # run_test_lower_arm()
-    # real_thing()
-
-
-def run_test_arm():
-    robot = rosebot.RoseBot()
-    robot.arm_and_claw.raise_arm()
-
-
-def run_test_calibrate():
-    robot = rosebot.RoseBot()
-    robot.arm_and_claw.calibrate_arm()
-
-
-def run_test_move_arm():
-    robot = rosebot.RoseBot()
-    robot.arm_and_claw.move_arm_to_position(0)
-
-
-def run_test_lower_arm():
-    robot = rosebot.RoseBot()
-    robot.arm_and_claw.lower_arm()
+    real_thing()
 
 
 def real_thing():
+
     robot = rosebot.RoseBot()
-    delegate_that_recieves = shared_gui_delegate_on_robot.DelegateThatReceives(robot)
-    mqtt_reciever = com.MqttClient(delegate_that_recieves)
-    mqtt_reciever.connect_to_pc()
+    my_delegate = shared_gui_delegate_on_robot.DelegateThatReceives(robot)
+    mqtt_receiver = com.MqttClient(my_delegate)
+    mqtt_receiver.connect_to_pc()
+    time.sleep(1)
 
     while True:
         time.sleep(0.01)
-        if delegate_that_recieves.is_time_to_stop:
+        if my_delegate.is_time_to_stop:
             break
+
+    print()
 
 
 
