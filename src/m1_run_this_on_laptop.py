@@ -356,7 +356,7 @@ def handler_turn_right(event=None, left_speed_entry=None, right_speed_entry=None
 
 def handler_park_assist(event=None, left_speed_entry=None, right_speed_entry=None, mqtt_sender=None):
     left_speed = int(left_speed_entry.get())
-    right_speed = -int(right_speed_entry.get())
+    right_speed = int(right_speed_entry.get())
     if event is None:
         print('You may press <Key-p> to implement the function')
     else:
