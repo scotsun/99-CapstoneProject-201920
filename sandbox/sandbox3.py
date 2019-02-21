@@ -42,3 +42,4 @@ def grid_frames(led_frame):
 
 main()
 
+self.robot.sensor_system.go_straight_until_color_is_not(pink, 50)
