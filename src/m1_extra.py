@@ -39,8 +39,6 @@ def sprint3_clear_path(robot):
             break
 
 
-
-
 def sprint3_detect(robot, mode, mqtt_client):
     '''
     :type robot rosebot.RoseBot
